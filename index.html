@@ -190,7 +190,7 @@
         th {
             background-color: #4b6cb7;
             color: white;
-            padding: 6px 2px; /* 大幅減少內邊距 */
+            padding: 6px 0px; /* 移除左右內邊距 */
             text-align: center;
             font-weight: 600;
             position: sticky;
@@ -214,7 +214,7 @@
             width: 50px;
             min-width: 50px;
             max-width: 50px;
-            padding: 6px 2px; /* 選擇框列內邊距更小 */
+            padding: 6px 0px; /* 移除左右內邊距 */
             border-right: 2px solid #2a4c99; /* 更深的右邊框 */
         }
         
@@ -230,7 +230,7 @@
             left: 50px; /* 第1欄的寬度 */
             z-index: 14;
             background-color: #4b6cb7;
-            padding: 6px 2px; /* 大幅減少內邊距 */
+            padding: 6px 0px; /* 移除左右內邊距 */
             border-right: 2px solid #3a5ca9; /* 更深的右邊框 */
         }
         
@@ -242,7 +242,7 @@
         /* 其他欄位的縮排 */
         th:not(:first-child):not(:nth-child(2)),
         td:not(:first-child):not(:nth-child(2)) {
-            padding: 6px 2px; /* 大幅減少內邊距，左右各1px */
+            padding: 6px 0px; /* 移除左右內邊距 */
         }
         
         /* 斑馬紋效果 */
@@ -335,7 +335,7 @@
         }
         
         td {
-            padding: 6px 2px; /* 大幅減少內邊距，左右各1px */
+            padding: 6px 0px; /* 移除左右內邊距 */
             border: 1px solid #e0e0e0; /* 加入格線 */
             white-space: nowrap;
             background-color: white;
@@ -437,7 +437,7 @@
             }
             
             th, td {
-                padding: 5px 1px; /* 移動端更小的內邊距 */
+                padding: 5px 0px; /* 移動端也移除左右內邊距 */
                 font-size: 0.85rem; /* 平板字型稍小 */
             }
             
@@ -451,13 +451,13 @@
                 width: 40px;
                 min-width: 40px;
                 max-width: 40px;
-                padding: 5px 1px;
+                padding: 5px 0px;
             }
             
             th:nth-child(2),
             td:nth-child(2) {
                 left: 40px;
-                padding: 5px 1px;
+                padding: 5px 0px;
             }
         }
         
@@ -471,7 +471,7 @@
             }
             
             th, td {
-                padding: 4px 1px;
+                padding: 4px 0px;
                 font-size: 0.8rem; /* 手機字型最小 */
             }
             
@@ -486,13 +486,13 @@
                 width: 35px;
                 min-width: 35px;
                 max-width: 35px;
-                padding: 4px 1px;
+                padding: 4px 0px;
             }
             
             th:nth-child(2),
             td:nth-child(2) {
                 left: 35px;
-                padding: 4px 1px;
+                padding: 4px 0px;
             }
         }
     </style>
@@ -875,7 +875,7 @@
                 tableContainer.innerHTML = '';
                 tableContainer.appendChild(table);
                 
-                // 自動調整欄寬 - 只比文字左右各加1px
+                // 自動調整欄寬 - 完全等於文字寬度
                 autoAdjustColumnWidths();
                 
                 // 强制触发重排以确保滚动条显示
@@ -892,7 +892,7 @@
                 }
             }
             
-            // 自動調整欄寬函數 - 只比文字左右各加1px
+            // 自動調整欄寬函數 - 完全等於文字寬度
             function autoAdjustColumnWidths() {
                 const table = tableContainer.querySelector('table');
                 if (!table) return;
@@ -919,15 +919,13 @@
                         }
                     });
                     
-                    // 設置寬度 - 只比文字左右各加1px (總共2px)
-                    const calculatedWidth = Math.ceil(maxWidth) + 2;
-                    
-                    // 第1欄固定寬度，其他欄位根據內容調整
+                    // 第1欄固定寬度，其他欄位完全等於文字寬度
                     if (colIndex === 0) {
                         header.style.width = '50px';
                         header.style.minWidth = '50px';
                         header.style.maxWidth = '50px';
                     } else {
+                        const calculatedWidth = Math.ceil(maxWidth);
                         header.style.width = `${calculatedWidth}px`;
                         header.style.minWidth = `${calculatedWidth}px`;
                         header.style.maxWidth = `${calculatedWidth}px`;
@@ -942,6 +940,7 @@
                                 cell.style.minWidth = '50px';
                                 cell.style.maxWidth = '50px';
                             } else {
+                                const calculatedWidth = Math.ceil(maxWidth);
                                 cell.style.width = `${calculatedWidth}px`;
                                 cell.style.minWidth = `${calculatedWidth}px`;
                                 cell.style.maxWidth = `${calculatedWidth}px`;
