@@ -505,7 +505,7 @@
                 updateRowSelectionStyles();
             });
             
-            // 更新按钮事件
+            // 更新按钮事件 - 修复版本
             refreshBtn.addEventListener('click', function() {
                 loadExcelFile();
             });
@@ -559,9 +559,10 @@
                 XLSX.writeFile(wb, 'selected_data.xlsx');
             }
             
-            // 加载Excel文件
+            // 加载Excel文件 - 修复版本
             function loadExcelFile() {
-                tableContainer.innerHTML = '<div class="no-data">正在加载表格数据...</div>';
+                // 显示加载状态
+                tableContainer.innerHTML = '<div class="no-data">正在更新表格数据...</div>';
                 sheetSelector.style.display = 'none';
                 currentSortColumn = null;
                 currentSortDirection = null;
@@ -572,8 +573,11 @@
                 refreshBtn.disabled = true;
                 refreshBtn.textContent = '更新中...';
                 
+                // 添加时间戳避免缓存
+                const timestamp = new Date().getTime();
+                
                 // 使用fetch API获取Excel文件
-                fetch('./data.xlsx')
+                fetch(`./data.xlsx?t=${timestamp}`)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`文件加载失败: ${response.status} ${response.statusText}`);
@@ -583,6 +587,9 @@
                     .then(data => {
                         try {
                             currentWorkbook = XLSX.read(data, { type: 'array' });
+                            // 清空表格容器
+                            tableContainer.innerHTML = '';
+                            // 重新显示工作簿
                             displayWorkbook(currentWorkbook);
                             // 加载完成后焦点移到表格
                             setTimeout(() => {
