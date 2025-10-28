@@ -47,17 +47,25 @@
         .table-section {
             flex: 1;
             padding: 20px;
-            overflow: auto;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
         
-        .table-wrapper {
+        .table-container-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .table-scroll-wrapper {
             flex: 1;
             overflow: auto;
             position: relative;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
         }
         
         table {
@@ -78,6 +86,7 @@
             top: 0;
             user-select: none;
             white-space: nowrap;
+            z-index: 10;
         }
         
         /* 固定第一列 */
@@ -85,9 +94,12 @@
         td:first-child {
             position: sticky;
             left: 0;
-            z-index: 2;
-            background-color: #4b6cb7;
-            color: white;
+            z-index: 5;
+        }
+        
+        th:first-child {
+            background-color: #3a5ca9;
+            z-index: 15;
         }
         
         td:first-child {
@@ -175,24 +187,34 @@
             background-color: white;
         }
         
-        /* 水平滚动条样式 */
-        .table-wrapper::-webkit-scrollbar {
-            height: 12px;
-            width: 12px;
+        /* 滚动条样式 */
+        .table-scroll-wrapper::-webkit-scrollbar {
+            height: 14px;
+            width: 14px;
         }
         
-        .table-wrapper::-webkit-scrollbar-track {
+        .table-scroll-wrapper::-webkit-scrollbar-track {
             background: #f1f1f1;
-            border-radius: 6px;
+            border-radius: 0 0 8px 0;
         }
         
-        .table-wrapper::-webkit-scrollbar-thumb {
+        .table-scroll-wrapper::-webkit-scrollbar-thumb {
             background: #c1c1c1;
-            border-radius: 6px;
+            border-radius: 8px;
+            border: 2px solid #f1f1f1;
         }
         
-        .table-wrapper::-webkit-scrollbar-thumb:hover {
+        .table-scroll-wrapper::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
+        }
+        
+        .table-scroll-wrapper::-webkit-scrollbar-corner {
+            background: #f1f1f1;
+        }
+        
+        /* 水平和垂直滚动条同时出现时的样式 */
+        .table-scroll-wrapper::-webkit-scrollbar-button {
+            display: none;
         }
         
         @media (max-width: 768px) {
@@ -245,9 +267,11 @@
                 <label for="sheetSelect">选择工作表：</label>
                 <select id="sheetSelect"></select>
             </div>
-            <div class="table-wrapper" id="tableWrapper">
-                <div id="tableContainer">
-                    <div class="no-data">正在加载表格数据...</div>
+            <div class="table-container-wrapper">
+                <div class="table-scroll-wrapper" id="tableScrollWrapper">
+                    <div id="tableContainer">
+                        <div class="no-data">正在加载表格数据...</div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -256,7 +280,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const tableContainer = document.getElementById('tableContainer');
-            const tableWrapper = document.getElementById('tableWrapper');
+            const tableScrollWrapper = document.getElementById('tableScrollWrapper');
             const sheetSelector = document.getElementById('sheetSelector');
             const sheetSelect = document.getElementById('sheetSelect');
             
@@ -444,10 +468,8 @@
                     totalWidth += header.offsetWidth;
                 });
                 
-                // 如果表格宽度超过容器，启用水平滚动
-                if (totalWidth > tableWrapper.clientWidth) {
-                    table.style.minWidth = totalWidth + 'px';
-                }
+                // 设置表格最小宽度
+                table.style.minWidth = Math.max(totalWidth, tableScrollWrapper.clientWidth) + 'px';
             }
             
             // 排序表格
@@ -528,6 +550,14 @@
                     }
                 }
             }
+
+            // 窗口大小改变时重新调整表格
+            window.addEventListener('resize', function() {
+                const table = tableContainer.querySelector('table');
+                if (table) {
+                    setTimeout(() => adjustTableWidth(), 100);
+                }
+            });
         });
     </script>
 </body>
