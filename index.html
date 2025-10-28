@@ -112,6 +112,15 @@
             box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
         }
         
+        .btn-refresh {
+            background: linear-gradient(90deg, #17a2b8 0%, #138496 100%);
+            box-shadow: 0 2px 5px rgba(23, 162, 184, 0.3);
+        }
+        
+        .btn-refresh:hover {
+            box-shadow: 0 4px 8px rgba(23, 162, 184, 0.4);
+        }
+        
         .btn-select-all {
             background: linear-gradient(90deg, #6c757d 0%, #495057 100%);
             box-shadow: 0 2px 5px rgba(108, 117, 125, 0.3);
@@ -374,6 +383,8 @@
             .selection-group {
                 width: 100%;
                 justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 8px;
             }
             
             th, td {
@@ -426,6 +437,7 @@
                 <div class="selection-group">
                     <button class="btn btn-select-all" id="selectAllBtn">全选</button>
                     <span class="selection-info" id="selectionInfo">已选择 0 行</span>
+                    <button class="btn btn-refresh" id="refreshBtn">更新</button>
                     <button class="btn btn-export" id="exportBtn">匯出選取資料</button>
                 </div>
             </div>
@@ -447,6 +459,7 @@
             const sheetSelector = document.getElementById('sheetSelector');
             const sheetSelect = document.getElementById('sheetSelect');
             const selectAllBtn = document.getElementById('selectAllBtn');
+            const refreshBtn = document.getElementById('refreshBtn');
             const exportBtn = document.getElementById('exportBtn');
             const selectionInfo = document.getElementById('selectionInfo');
             
@@ -490,6 +503,11 @@
                 
                 updateSelectionInfo();
                 updateRowSelectionStyles();
+            });
+            
+            // 更新按钮事件
+            refreshBtn.addEventListener('click', function() {
+                loadExcelFile();
             });
             
             // 导出按钮事件
@@ -550,6 +568,10 @@
                 selectedRows.clear();
                 updateSelectionInfo();
                 
+                // 显示加载状态
+                refreshBtn.disabled = true;
+                refreshBtn.textContent = '更新中...';
+                
                 // 使用fetch API获取Excel文件
                 fetch('./data.xlsx')
                     .then(response => {
@@ -573,6 +595,11 @@
                     .catch(error => {
                         console.error('加载Excel文件时出错:', error);
                         tableContainer.innerHTML = `<div class="no-data">加载失败: ${error.message}</div>`;
+                    })
+                    .finally(() => {
+                        // 恢复按钮状态
+                        refreshBtn.disabled = false;
+                        refreshBtn.textContent = '更新';
                     });
             }
             
