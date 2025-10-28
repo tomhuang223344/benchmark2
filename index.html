@@ -184,12 +184,13 @@
             border-collapse: collapse;
             border-spacing: 0;
             font-size: 0.9rem; /* 表格字型 */
+            table-layout: auto; /* 改為自動佈局，讓欄寬根據內容調整 */
         }
         
         th {
             background-color: #4b6cb7;
             color: white;
-            padding: 10px 12px;
+            padding: 8px 10px; /* 減少內邊距 */
             text-align: center;
             font-weight: 600;
             position: sticky;
@@ -198,6 +199,10 @@
             white-space: nowrap;
             z-index: 10;
             font-size: 0.9rem; /* 表頭字型 */
+            min-width: 60px; /* 最小寬度 */
+            max-width: 300px; /* 最大寬度限制 */
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         /* 选择框列 - 第1欄固定 */
@@ -210,6 +215,7 @@
             width: 50px;
             min-width: 50px;
             max-width: 50px;
+            padding: 8px 5px; /* 選擇框列內邊距更小 */
         }
         
         td:first-child {
@@ -224,7 +230,9 @@
             left: 50px; /* 第1欄的寬度 */
             z-index: 14;
             background-color: #4b6cb7;
-            min-width: 150px;
+            min-width: 80px; /* 減少最小寬度 */
+            max-width: 200px; /* 限制最大寬度 */
+            padding: 8px 8px; /* 適中的內邊距 */
         }
         
         td:nth-child(2) {
@@ -314,12 +322,16 @@
         }
         
         td {
-            padding: 8px 12px;
+            padding: 6px 8px; /* 減少內邊距 */
             border-bottom: 1px solid #eee;
             white-space: nowrap;
             background-color: white;
             text-align: center;
             font-size: 0.9rem; /* 表格內容字型 */
+            min-width: 60px; /* 最小寬度 */
+            max-width: 300px; /* 最大寬度限制 */
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         tr:nth-child(even) td {
@@ -421,7 +433,7 @@
             }
             
             th, td {
-                padding: 6px 8px;
+                padding: 5px 6px; /* 移動端更小的內邊距 */
                 font-size: 0.85rem; /* 平板字型稍小 */
             }
             
@@ -435,12 +447,21 @@
                 width: 40px;
                 min-width: 40px;
                 max-width: 40px;
+                padding: 5px 3px;
             }
             
             th:nth-child(2),
             td:nth-child(2) {
                 left: 40px;
-                min-width: 120px;
+                min-width: 70px;
+                max-width: 150px;
+                padding: 5px 5px;
+            }
+            
+            /* 移動端其他列的最小寬度 */
+            th, td {
+                min-width: 50px;
+                max-width: 200px;
             }
         }
         
@@ -454,7 +475,7 @@
             }
             
             th, td {
-                padding: 5px 6px;
+                padding: 4px 5px;
                 font-size: 0.8rem; /* 手機字型最小 */
             }
             
@@ -469,12 +490,21 @@
                 width: 35px;
                 min-width: 35px;
                 max-width: 35px;
+                padding: 4px 2px;
             }
             
             th:nth-child(2),
             td:nth-child(2) {
                 left: 35px;
-                min-width: 100px;
+                min-width: 60px;
+                max-width: 120px;
+                padding: 4px 4px;
+            }
+            
+            /* 手機端其他列的最小寬度 */
+            th, td {
+                min-width: 40px;
+                max-width: 150px;
             }
         }
     </style>
@@ -857,6 +887,9 @@
                 tableContainer.innerHTML = '';
                 tableContainer.appendChild(table);
                 
+                // 自動調整欄寬
+                autoAdjustColumnWidths();
+                
                 // 强制触发重排以确保滚动条显示
                 setTimeout(() => {
                     tableWrapper.scrollTop = 0;
@@ -869,6 +902,61 @@
                 if (currentSortColumn !== null && currentSortDirection !== null) {
                     sortTable(currentSortColumn, currentSortDirection);
                 }
+            }
+            
+            // 自動調整欄寬函數
+            function autoAdjustColumnWidths() {
+                const table = tableContainer.querySelector('table');
+                if (!table) return;
+                
+                const headers = table.querySelectorAll('th');
+                const rows = table.querySelectorAll('tr');
+                
+                // 為每個欄位計算最大寬度
+                headers.forEach((header, colIndex) => {
+                    let maxWidth = 0;
+                    
+                    // 檢查表頭寬度
+                    const headerText = header.textContent || header.innerText;
+                    const headerWidth = getTextWidth(headerText, '0.9rem');
+                    maxWidth = Math.max(maxWidth, headerWidth);
+                    
+                    // 檢查該欄所有行的內容寬度
+                    rows.forEach(row => {
+                        const cell = row.cells[colIndex];
+                        if (cell) {
+                            const cellText = cell.textContent || cell.innerText;
+                            const cellWidth = getTextWidth(cellText, '0.9rem');
+                            maxWidth = Math.max(maxWidth, cellWidth);
+                        }
+                    });
+                    
+                    // 設置最小和最大寬度限制
+                    const minWidth = colIndex === 0 ? 50 : colIndex === 1 ? 80 : 60;
+                    const calculatedWidth = Math.max(minWidth, maxWidth + 20); // 加上內邊距
+                    const finalWidth = Math.min(calculatedWidth, 300); // 限制最大寬度
+                    
+                    header.style.minWidth = `${finalWidth}px`;
+                    header.style.maxWidth = `${finalWidth}px`;
+                    
+                    // 同時設置對應的 td 寬度
+                    rows.forEach(row => {
+                        const cell = row.cells[colIndex];
+                        if (cell && !cell.classList.contains('select-checkbox')) {
+                            cell.style.minWidth = `${finalWidth}px`;
+                            cell.style.maxWidth = `${finalWidth}px`;
+                        }
+                    });
+                });
+            }
+            
+            // 計算文字寬度的輔助函數
+            function getTextWidth(text, fontSize) {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                context.font = `${fontSize} 'Segoe UI', 'Microsoft JhengHei', sans-serif`;
+                const metrics = context.measureText(text);
+                return metrics.width;
             }
             
             // 排序表格
