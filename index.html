@@ -437,8 +437,8 @@
                 <div class="selection-group">
                     <button class="btn btn-select-all" id="selectAllBtn">全选</button>
                     <span class="selection-info" id="selectionInfo">已选择 0 行</span>
-                    <button class="btn btn-refresh" id="refreshBtn">更新</button>
                     <button class="btn btn-export" id="exportBtn">匯出選取資料</button>
+                    <button class="btn btn-refresh" id="refreshBtn">更新</button>
                 </div>
             </div>
         </section>
@@ -505,7 +505,7 @@
                 updateRowSelectionStyles();
             });
             
-            // 更新按钮事件 - 修复版本
+            // 更新按钮事件
             refreshBtn.addEventListener('click', function() {
                 loadExcelFile();
             });
@@ -559,7 +559,7 @@
                 XLSX.writeFile(wb, 'selected_data.xlsx');
             }
             
-            // 加载Excel文件 - 修复版本
+            // 加载Excel文件
             function loadExcelFile() {
                 // 显示加载状态
                 tableContainer.innerHTML = '<div class="no-data">正在更新表格数据...</div>';
