@@ -190,7 +190,7 @@
         th {
             background-color: #4b6cb7;
             color: white;
-            padding: 8px 10px; /* 減少內邊距 */
+            padding: 6px 2px; /* 大幅減少內邊距 */
             text-align: center;
             font-weight: 600;
             position: sticky;
@@ -199,8 +199,6 @@
             white-space: nowrap;
             z-index: 10;
             font-size: 0.9rem; /* 表頭字型 */
-            min-width: 60px; /* 最小寬度 */
-            max-width: 300px; /* 最大寬度限制 */
             overflow: hidden;
             text-overflow: ellipsis;
             border: 1px solid #3a5ca9; /* 表頭格線 */
@@ -216,7 +214,7 @@
             width: 50px;
             min-width: 50px;
             max-width: 50px;
-            padding: 8px 5px; /* 選擇框列內邊距更小 */
+            padding: 6px 2px; /* 選擇框列內邊距更小 */
             border-right: 2px solid #2a4c99; /* 更深的右邊框 */
         }
         
@@ -232,9 +230,7 @@
             left: 50px; /* 第1欄的寬度 */
             z-index: 14;
             background-color: #4b6cb7;
-            min-width: 80px; /* 減少最小寬度 */
-            max-width: 200px; /* 限制最大寬度 */
-            padding: 8px 8px; /* 適中的內邊距 */
+            padding: 6px 2px; /* 大幅減少內邊距 */
             border-right: 2px solid #3a5ca9; /* 更深的右邊框 */
         }
         
@@ -246,9 +242,7 @@
         /* 其他欄位的縮排 */
         th:not(:first-child):not(:nth-child(2)),
         td:not(:first-child):not(:nth-child(2)) {
-            padding: 6px 8px; /* 統一的內邊距 */
-            min-width: 60px;
-            max-width: 250px;
+            padding: 6px 2px; /* 大幅減少內邊距，左右各1px */
         }
         
         /* 斑馬紋效果 */
@@ -299,33 +293,33 @@
         .header-content {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 4px; /* 減少間距 */
             justify-content: center;
         }
         
         .sort-icons {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            margin-left: 6px;
+            gap: 1px; /* 減少間距 */
+            margin-left: 4px; /* 減少間距 */
         }
         
-        /* 三角形排序图标 - 放大一倍 */
+        /* 三角形排序图标 - 縮小 */
         .sort-icon {
             width: 0;
             height: 0;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
             opacity: 0.5;
             transition: all 0.3s;
         }
         
         .sort-icon.sort-up {
-            border-bottom: 8px solid white;
+            border-bottom: 6px solid white;
         }
         
         .sort-icon.sort-down {
-            border-top: 8px solid white;
+            border-top: 6px solid white;
         }
         
         .sort-icon.active {
@@ -341,14 +335,12 @@
         }
         
         td {
-            padding: 6px 8px; /* 減少內邊距 */
+            padding: 6px 2px; /* 大幅減少內邊距，左右各1px */
             border: 1px solid #e0e0e0; /* 加入格線 */
             white-space: nowrap;
             background-color: white;
             text-align: center;
             font-size: 0.9rem; /* 表格內容字型 */
-            min-width: 60px; /* 最小寬度 */
-            max-width: 300px; /* 最大寬度限制 */
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -445,7 +437,7 @@
             }
             
             th, td {
-                padding: 5px 6px; /* 移動端更小的內邊距 */
+                padding: 5px 1px; /* 移動端更小的內邊距 */
                 font-size: 0.85rem; /* 平板字型稍小 */
             }
             
@@ -459,23 +451,13 @@
                 width: 40px;
                 min-width: 40px;
                 max-width: 40px;
-                padding: 5px 3px;
+                padding: 5px 1px;
             }
             
             th:nth-child(2),
             td:nth-child(2) {
                 left: 40px;
-                min-width: 70px;
-                max-width: 150px;
-                padding: 5px 5px;
-            }
-            
-            /* 移動端其他列的最小寬度 */
-            th:not(:first-child):not(:nth-child(2)),
-            td:not(:first-child):not(:nth-child(2)) {
-                min-width: 50px;
-                max-width: 180px;
-                padding: 5px 6px;
+                padding: 5px 1px;
             }
         }
         
@@ -489,7 +471,7 @@
             }
             
             th, td {
-                padding: 4px 5px;
+                padding: 4px 1px;
                 font-size: 0.8rem; /* 手機字型最小 */
             }
             
@@ -504,23 +486,13 @@
                 width: 35px;
                 min-width: 35px;
                 max-width: 35px;
-                padding: 4px 2px;
+                padding: 4px 1px;
             }
             
             th:nth-child(2),
             td:nth-child(2) {
                 left: 35px;
-                min-width: 60px;
-                max-width: 120px;
-                padding: 4px 4px;
-            }
-            
-            /* 手機端其他列的最小寬度 */
-            th:not(:first-child):not(:nth-child(2)),
-            td:not(:first-child):not(:nth-child(2)) {
-                min-width: 40px;
-                max-width: 140px;
-                padding: 4px 5px;
+                padding: 4px 1px;
             }
         }
     </style>
@@ -903,7 +875,7 @@
                 tableContainer.innerHTML = '';
                 tableContainer.appendChild(table);
                 
-                // 自動調整欄寬
+                // 自動調整欄寬 - 只比文字左右各加1px
                 autoAdjustColumnWidths();
                 
                 // 强制触发重排以确保滚动条显示
@@ -920,7 +892,7 @@
                 }
             }
             
-            // 自動調整欄寬函數
+            // 自動調整欄寬函數 - 只比文字左右各加1px
             function autoAdjustColumnWidths() {
                 const table = tableContainer.querySelector('table');
                 if (!table) return;
@@ -947,31 +919,33 @@
                         }
                     });
                     
-                    // 設置最小和最大寬度限制
-                    let minWidth, maxWidthLimit;
+                    // 設置寬度 - 只比文字左右各加1px (總共2px)
+                    const calculatedWidth = Math.ceil(maxWidth) + 2;
+                    
+                    // 第1欄固定寬度，其他欄位根據內容調整
                     if (colIndex === 0) {
-                        minWidth = 50;
-                        maxWidthLimit = 50;
-                    } else if (colIndex === 1) {
-                        minWidth = 80;
-                        maxWidthLimit = 200;
+                        header.style.width = '50px';
+                        header.style.minWidth = '50px';
+                        header.style.maxWidth = '50px';
                     } else {
-                        minWidth = 60;
-                        maxWidthLimit = 250;
+                        header.style.width = `${calculatedWidth}px`;
+                        header.style.minWidth = `${calculatedWidth}px`;
+                        header.style.maxWidth = `${calculatedWidth}px`;
                     }
-                    
-                    const calculatedWidth = Math.max(minWidth, maxWidth + 16); // 加上內邊距
-                    const finalWidth = Math.min(calculatedWidth, maxWidthLimit); // 限制最大寬度
-                    
-                    header.style.minWidth = `${finalWidth}px`;
-                    header.style.maxWidth = `${finalWidth}px`;
                     
                     // 同時設置對應的 td 寬度
                     rows.forEach(row => {
                         const cell = row.cells[colIndex];
-                        if (cell && !cell.classList.contains('select-checkbox')) {
-                            cell.style.minWidth = `${finalWidth}px`;
-                            cell.style.maxWidth = `${finalWidth}px`;
+                        if (cell) {
+                            if (colIndex === 0) {
+                                cell.style.width = '50px';
+                                cell.style.minWidth = '50px';
+                                cell.style.maxWidth = '50px';
+                            } else {
+                                cell.style.width = `${calculatedWidth}px`;
+                                cell.style.minWidth = `${calculatedWidth}px`;
+                                cell.style.maxWidth = `${calculatedWidth}px`;
+                            }
                         }
                     });
                 });
@@ -1062,6 +1036,9 @@
                 });
                 
                 updateRowSelectionStyles();
+                
+                // 重新調整欄寬
+                autoAdjustColumnWidths();
                 
                 // 更新排序图标状态
                 updateSortIcons(columnIndex, direction);
