@@ -16,6 +16,7 @@
         html, body {
             height: 100%;
             overflow: hidden;
+            font-size: 16px; /* 設定基準字型大小 */
         }
         
         body {
@@ -23,6 +24,7 @@
             color: #333;
             display: flex;
             flex-direction: column;
+            font-size: 0.9rem; /* 桌面版字型設定為 0.9rem */
         }
         
         .container {
@@ -55,6 +57,7 @@
             border-bottom: 1px solid #e0e0e0;
             background: #f8faff;
             flex-shrink: 0;
+            font-size: 0.9rem; /* 控制區域字型 */
         }
         
         .left-controls {
@@ -87,7 +90,7 @@
             border: none;
             padding: 10px 20px;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 按鈕字型 */
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 2px 5px rgba(75, 108, 183, 0.3);
@@ -137,6 +140,7 @@
             flex-direction: column;
             min-height: 0;
             overflow: hidden;
+            font-size: 0.9rem; /* 表格區域字型 */
         }
         
         .sheet-selector {
@@ -152,6 +156,7 @@
             background-color: white;
             outline: none;
             min-width: 120px;
+            font-size: 0.9rem; /* 選擇器字型 */
         }
         
         /* 禁用选择器的键盘导航 */
@@ -178,6 +183,7 @@
             width: auto;
             border-collapse: collapse;
             border-spacing: 0;
+            font-size: 0.9rem; /* 表格字型 */
         }
         
         th {
@@ -191,14 +197,15 @@
             user-select: none;
             white-space: nowrap;
             z-index: 10;
+            font-size: 0.9rem; /* 表頭字型 */
         }
         
-        /* 选择框列 */
+        /* 选择框列 - 第1欄固定 */
         th:first-child,
         td:first-child {
             position: sticky;
             left: 0;
-            z-index: 5;
+            z-index: 15;
             background-color: #3a5ca9;
             width: 50px;
             min-width: 50px;
@@ -210,11 +217,35 @@
             border-right: 2px solid #e0e0e0;
         }
         
+        /* 第2欄固定 */
+        th:nth-child(2),
+        td:nth-child(2) {
+            position: sticky;
+            left: 50px; /* 第1欄的寬度 */
+            z-index: 14;
+            background-color: #4b6cb7;
+            min-width: 150px;
+        }
+        
+        td:nth-child(2) {
+            background-color: white;
+            border-right: 2px solid #e0e0e0;
+        }
+        
+        /* 斑馬紋效果 */
         tr:nth-child(even) td:first-child {
             background-color: #f8faff;
         }
         
+        tr:nth-child(even) td:nth-child(2) {
+            background-color: #f8faff;
+        }
+        
         tr:hover td:first-child {
+            background-color: #eef2ff;
+        }
+        
+        tr:hover td:nth-child(2) {
             background-color: #eef2ff;
         }
         
@@ -288,6 +319,7 @@
             white-space: nowrap;
             background-color: white;
             text-align: center;
+            font-size: 0.9rem; /* 表格內容字型 */
         }
         
         tr:nth-child(even) td {
@@ -316,10 +348,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            font-size: 0.9rem; /* 無資料提示字型 */
         }
         
         .selection-info {
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 選擇資訊字型 */
             color: #666;
             white-space: nowrap;
         }
@@ -389,11 +422,25 @@
             
             th, td {
                 padding: 6px 8px;
-                font-size: 0.9rem;
+                font-size: 0.85rem; /* 平板字型稍小 */
             }
             
             .table-section {
                 padding: 15px;
+            }
+            
+            /* 移動端調整固定列的寬度 */
+            th:first-child,
+            td:first-child {
+                width: 40px;
+                min-width: 40px;
+                max-width: 40px;
+            }
+            
+            th:nth-child(2),
+            td:nth-child(2) {
+                left: 40px;
+                min-width: 120px;
             }
         }
         
@@ -408,12 +455,26 @@
             
             th, td {
                 padding: 5px 6px;
-                font-size: 0.8rem;
+                font-size: 0.8rem; /* 手機字型最小 */
             }
             
             .btn {
                 padding: 8px 15px;
                 font-size: 0.85rem;
+            }
+            
+            /* 移動端進一步調整固定列的寬度 */
+            th:first-child,
+            td:first-child {
+                width: 35px;
+                min-width: 35px;
+                max-width: 35px;
+            }
+            
+            th:nth-child(2),
+            td:nth-child(2) {
+                left: 35px;
+                min-width: 100px;
             }
         }
     </style>
@@ -428,14 +489,14 @@
             <div class="left-controls">
                 <div class="control-group">
                     <div class="sheet-selector" id="sheetSelector" style="display: none;">
-                        <label for="sheetSelect">选择工作表：</label>
+                        <label for="sheetSelect">Select Sheet:</label>
                         <select id="sheetSelect"></select>
                     </div>
                 </div>
             </div>
             <div class="right-controls">
                 <div class="selection-group">
-                    <button class="btn btn-select-all" id="selectAllBtn">全选</button>
+                    <button class="btn btn-select-all" id="selectAllBtn">Select All</button>
                     <span class="selection-info" id="selectionInfo">已选择 0 行</span>
                     <button class="btn btn-export" id="exportBtn">匯出選取資料</button>
                     <button class="btn btn-refresh" id="refreshBtn">更新</button>
