@@ -203,6 +203,7 @@
             max-width: 300px; /* 最大寬度限制 */
             overflow: hidden;
             text-overflow: ellipsis;
+            border: 1px solid #3a5ca9; /* 表頭格線 */
         }
         
         /* 选择框列 - 第1欄固定 */
@@ -216,11 +217,12 @@
             min-width: 50px;
             max-width: 50px;
             padding: 8px 5px; /* 選擇框列內邊距更小 */
+            border-right: 2px solid #2a4c99; /* 更深的右邊框 */
         }
         
         td:first-child {
             background-color: white;
-            border-right: 2px solid #e0e0e0;
+            border: 1px solid #e0e0e0; /* 加入格線 */
         }
         
         /* 第2欄固定 */
@@ -233,11 +235,20 @@
             min-width: 80px; /* 減少最小寬度 */
             max-width: 200px; /* 限制最大寬度 */
             padding: 8px 8px; /* 適中的內邊距 */
+            border-right: 2px solid #3a5ca9; /* 更深的右邊框 */
         }
         
         td:nth-child(2) {
             background-color: white;
-            border-right: 2px solid #e0e0e0;
+            border: 1px solid #e0e0e0; /* 加入格線 */
+        }
+        
+        /* 其他欄位的縮排 */
+        th:not(:first-child):not(:nth-child(2)),
+        td:not(:first-child):not(:nth-child(2)) {
+            padding: 6px 8px; /* 統一的內邊距 */
+            min-width: 60px;
+            max-width: 250px;
         }
         
         /* 斑馬紋效果 */
@@ -249,11 +260,19 @@
             background-color: #f8faff;
         }
         
+        tr:nth-child(even) td {
+            background-color: #f8faff;
+        }
+        
         tr:hover td:first-child {
             background-color: #eef2ff;
         }
         
         tr:hover td:nth-child(2) {
+            background-color: #eef2ff;
+        }
+        
+        tr:hover td {
             background-color: #eef2ff;
         }
         
@@ -323,7 +342,7 @@
         
         td {
             padding: 6px 8px; /* 減少內邊距 */
-            border-bottom: 1px solid #eee;
+            border: 1px solid #e0e0e0; /* 加入格線 */
             white-space: nowrap;
             background-color: white;
             text-align: center;
@@ -334,17 +353,10 @@
             text-overflow: ellipsis;
         }
         
-        tr:nth-child(even) td {
-            background-color: #f8faff;
-        }
-        
-        tr:hover td {
-            background-color: #eef2ff;
-        }
-        
         /* 选中行的样式 */
         tr.selected td {
             background-color: #e3f2fd !important;
+            border-color: #bbdefb; /* 选中行的格線顏色 */
         }
         
         tr.selected:hover td {
@@ -459,9 +471,11 @@
             }
             
             /* 移動端其他列的最小寬度 */
-            th, td {
+            th:not(:first-child):not(:nth-child(2)),
+            td:not(:first-child):not(:nth-child(2)) {
                 min-width: 50px;
-                max-width: 200px;
+                max-width: 180px;
+                padding: 5px 6px;
             }
         }
         
@@ -502,9 +516,11 @@
             }
             
             /* 手機端其他列的最小寬度 */
-            th, td {
+            th:not(:first-child):not(:nth-child(2)),
+            td:not(:first-child):not(:nth-child(2)) {
                 min-width: 40px;
-                max-width: 150px;
+                max-width: 140px;
+                padding: 4px 5px;
             }
         }
     </style>
@@ -932,9 +948,20 @@
                     });
                     
                     // 設置最小和最大寬度限制
-                    const minWidth = colIndex === 0 ? 50 : colIndex === 1 ? 80 : 60;
-                    const calculatedWidth = Math.max(minWidth, maxWidth + 20); // 加上內邊距
-                    const finalWidth = Math.min(calculatedWidth, 300); // 限制最大寬度
+                    let minWidth, maxWidthLimit;
+                    if (colIndex === 0) {
+                        minWidth = 50;
+                        maxWidthLimit = 50;
+                    } else if (colIndex === 1) {
+                        minWidth = 80;
+                        maxWidthLimit = 200;
+                    } else {
+                        minWidth = 60;
+                        maxWidthLimit = 250;
+                    }
+                    
+                    const calculatedWidth = Math.max(minWidth, maxWidth + 16); // 加上內邊距
+                    const finalWidth = Math.min(calculatedWidth, maxWidthLimit); // 限制最大寬度
                     
                     header.style.minWidth = `${finalWidth}px`;
                     header.style.maxWidth = `${finalWidth}px`;
