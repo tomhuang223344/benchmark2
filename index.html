@@ -16,7 +16,7 @@
         html, body {
             height: 100%;
             overflow: hidden;
-            font-size: 16px; /* 設定基準字型大小 */
+            font-size: 16px;
         }
         
         body {
@@ -24,7 +24,7 @@
             color: #333;
             display: flex;
             flex-direction: column;
-            font-size: 0.9rem; /* 桌面版字型設定為 0.9rem */
+            font-size: 0.9rem;
         }
         
         .container {
@@ -57,7 +57,7 @@
             border-bottom: 1px solid #e0e0e0;
             background: #f8faff;
             flex-shrink: 0;
-            font-size: 0.9rem; /* 控制區域字型 */
+            font-size: 0.9rem;
         }
         
         .left-controls {
@@ -90,7 +90,7 @@
             border: none;
             padding: 10px 20px;
             border-radius: 6px;
-            font-size: 0.9rem; /* 按鈕字型 */
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 2px 5px rgba(75, 108, 183, 0.3);
@@ -153,7 +153,7 @@
             flex-direction: column;
             min-height: 0;
             overflow: hidden;
-            font-size: 0.9rem; /* 表格區域字型 */
+            font-size: 0.9rem;
         }
         
         .sheet-selector {
@@ -169,10 +169,9 @@
             background-color: white;
             outline: none;
             min-width: 120px;
-            font-size: 0.9rem; /* 選擇器字型 */
+            font-size: 0.9rem;
         }
         
-        /* 禁用选择器的键盘导航 */
         .sheet-selector select:focus {
             box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
         }
@@ -196,27 +195,25 @@
             width: auto;
             border-collapse: collapse;
             border-spacing: 0;
-            font-size: 0.9rem; /* 表格字型 */
-            table-layout: auto; /* 改為自動佈局，讓欄寬根據內容調整 */
+            font-size: 0.9rem;
+            table-layout: fixed; /* 改回固定佈局以控制欄寬 */
         }
         
         th {
             background-color: #4b6cb7;
             color: white;
-            padding: 8px 10px; /* 減少內邊距 */
-            text-align: center;
+            padding: 8px 8px; /* 減少內邊距 */
+            text-align: center; /* 表頭文字置中 */
             font-weight: 600;
             position: sticky;
             top: 0;
             user-select: none;
             white-space: nowrap;
             z-index: 10;
-            font-size: 0.9rem; /* 表頭字型 */
-            min-width: 60px; /* 最小寬度 */
-            max-width: 300px; /* 最大寬度限制 */
+            font-size: 0.9rem;
             overflow: hidden;
             text-overflow: ellipsis;
-            border: 1px solid #3a5ca9; /* 表頭格線 */
+            border: 1px solid #3a5ca9;
         }
         
         /* 选择框列 - 第1欄固定 */
@@ -229,39 +226,68 @@
             width: 50px;
             min-width: 50px;
             max-width: 50px;
-            padding: 8px 5px; /* 選擇框列內邊距更小 */
-            border-right: 2px solid #2a4c99; /* 更深的右邊框 */
+            padding: 8px 5px;
+            border-right: 2px solid #2a4c99;
+            text-align: center;
         }
         
         td:first-child {
             background-color: white;
-            border: 1px solid #e0e0e0; /* 加入格線 */
+            border: 1px solid #e0e0e0;
+            text-align: center;
         }
         
         /* 第2欄固定 */
         th:nth-child(2),
         td:nth-child(2) {
             position: sticky;
-            left: 50px; /* 第1欄的寬度 */
+            left: 50px;
             z-index: 14;
             background-color: #4b6cb7;
-            min-width: 80px; /* 減少最小寬度 */
-            max-width: 200px; /* 限制最大寬度 */
-            padding: 8px 8px; /* 適中的內邊距 */
-            border-right: 2px solid #3a5ca9; /* 更深的右邊框 */
+            width: 150px; /* 固定寬度 */
+            min-width: 150px;
+            max-width: 150px;
+            padding: 8px 8px;
+            border-right: 2px solid #3a5ca9;
+            text-align: center; /* 文字置中 */
         }
         
         td:nth-child(2) {
             background-color: white;
-            border: 1px solid #e0e0e0; /* 加入格線 */
+            border: 1px solid #e0e0e0;
+            text-align: center; /* 文字置中 */
         }
         
-        /* 其他欄位的縮排 */
-        th:not(:first-child):not(:nth-child(2)),
-        td:not(:first-child):not(:nth-child(2)) {
-            padding: 6px 8px; /* 統一的內邊距 */
-            min-width: 60px;
-            max-width: 250px;
+        /* CPU欄位 - 設置較小的寬度 */
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 100px; /* 固定寬度 */
+            min-width: 100px;
+            max-width: 100px;
+            padding: 8px 8px;
+            text-align: center; /* 文字置中 */
+        }
+        
+        /* GPU欄位 - 設置較小的寬度 */
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 100px; /* 固定寬度 */
+            min-width: 100px;
+            max-width: 100px;
+            padding: 8px 8px;
+            text-align: center; /* 文字置中 */
+        }
+        
+        /* 其他欄位 */
+        th:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)),
+        td:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
+            width: 120px; /* 固定寬度 */
+            min-width: 120px;
+            max-width: 120px;
+            padding: 8px 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center; /* 文字置中 */
         }
         
         /* 斑馬紋效果 */
@@ -302,7 +328,7 @@
             transition: background-color 0.3s;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: center; /* 置中對齊 */
         }
         
         th.sortable:hover {
@@ -313,17 +339,16 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            justify-content: center;
+            justify-content: center; /* 置中對齊 */
         }
         
         .sort-icons {
             display: flex;
             flex-direction: column;
             gap: 2px;
-            margin-left: 6px;
         }
         
-        /* 三角形排序图标 - 放大一倍 */
+        /* 三角形排序图标 */
         .sort-icon {
             width: 0;
             height: 0;
@@ -354,14 +379,12 @@
         }
         
         td {
-            padding: 6px 8px; /* 減少內邊距 */
-            border: 1px solid #e0e0e0; /* 加入格線 */
+            padding: 8px 8px;
+            border: 1px solid #e0e0e0;
             white-space: nowrap;
             background-color: white;
-            text-align: center;
-            font-size: 0.9rem; /* 表格內容字型 */
-            min-width: 60px; /* 最小寬度 */
-            max-width: 300px; /* 最大寬度限制 */
+            text-align: center; /* 所有表格內容置中 */
+            font-size: 0.9rem;
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -369,7 +392,7 @@
         /* 选中行的样式 */
         tr.selected td {
             background-color: #e3f2fd !important;
-            border-color: #bbdefb; /* 选中行的格線顏色 */
+            border-color: #bbdefb;
         }
         
         tr.selected:hover td {
@@ -385,11 +408,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 0.9rem; /* 無資料提示字型 */
+            font-size: 0.9rem;
         }
         
         .selection-info {
-            font-size: 0.9rem; /* 選擇資訊字型 */
+            font-size: 0.9rem;
             color: #666;
             white-space: nowrap;
         }
@@ -454,7 +477,7 @@
             background: #f8f9fa;
             border-bottom: 1px solid #e0e0e0;
             padding: 15px 20px;
-            display: block; /* 始終顯示 */
+            display: block;
             flex-shrink: 0;
         }
 
@@ -588,8 +611,8 @@
             }
             
             th, td {
-                padding: 5px 6px; /* 移動端更小的內邊距 */
-                font-size: 0.85rem; /* 平板字型稍小 */
+                padding: 6px 6px;
+                font-size: 0.85rem;
             }
             
             .table-section {
@@ -608,17 +631,36 @@
             th:nth-child(2),
             td:nth-child(2) {
                 left: 40px;
-                min-width: 70px;
-                max-width: 150px;
-                padding: 5px 5px;
+                width: 120px;
+                min-width: 120px;
+                max-width: 120px;
+                padding: 6px 6px;
             }
             
-            /* 移動端其他列的最小寬度 */
-            th:not(:first-child):not(:nth-child(2)),
-            td:not(:first-child):not(:nth-child(2)) {
-                min-width: 50px;
-                max-width: 180px;
-                padding: 5px 6px;
+            /* 移動端CPU和GPU欄位 */
+            th:nth-child(3),
+            td:nth-child(3) {
+                width: 80px;
+                min-width: 80px;
+                max-width: 80px;
+                padding: 6px 6px;
+            }
+            
+            th:nth-child(4),
+            td:nth-child(4) {
+                width: 80px;
+                min-width: 80px;
+                max-width: 80px;
+                padding: 6px 6px;
+            }
+            
+            /* 移動端其他列 */
+            th:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)),
+            td:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
+                width: 100px;
+                min-width: 100px;
+                max-width: 100px;
+                padding: 6px 6px;
             }
 
             /* 移動端篩選面板 */
@@ -657,8 +699,8 @@
             }
             
             th, td {
-                padding: 4px 5px;
-                font-size: 0.8rem; /* 手機字型最小 */
+                padding: 5px 5px;
+                font-size: 0.8rem;
             }
             
             .btn {
@@ -678,17 +720,36 @@
             th:nth-child(2),
             td:nth-child(2) {
                 left: 35px;
-                min-width: 60px;
-                max-width: 120px;
-                padding: 4px 4px;
+                width: 100px;
+                min-width: 100px;
+                max-width: 100px;
+                padding: 5px 5px;
             }
             
-            /* 手機端其他列的最小寬度 */
-            th:not(:first-child):not(:nth-child(2)),
-            td:not(:first-child):not(:nth-child(2)) {
-                min-width: 40px;
-                max-width: 140px;
-                padding: 4px 5px;
+            /* 手機端CPU和GPU欄位 */
+            th:nth-child(3),
+            td:nth-child(3) {
+                width: 70px;
+                min-width: 70px;
+                max-width: 70px;
+                padding: 5px 5px;
+            }
+            
+            th:nth-child(4),
+            td:nth-child(4) {
+                width: 70px;
+                min-width: 70px;
+                max-width: 70px;
+                padding: 5px 5px;
+            }
+            
+            /* 手機端其他列 */
+            th:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)),
+            td:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
+                width: 80px;
+                min-width: 80px;
+                max-width: 80px;
+                padding: 5px 5px;
             }
 
             /* 手機端篩選面板 */
@@ -814,7 +875,7 @@
             let currentSortColumn = null;
             let currentSortDirection = null;
             let selectedRows = new Set();
-            let isLocalFileBtnVisible = false; // 預設為隱藏
+            let isLocalFileBtnVisible = false;
             
             // 篩選值集合
             let cpuFilterValues = new Set();
@@ -828,6 +889,9 @@
             
             // 原始數據
             let originalDataRows = [];
+            
+            // 當前顯示的數據（篩選後）
+            let currentDisplayData = [];
             
             // 創建快捷鍵提示元素
             const createShortcutHint = () => {
@@ -854,7 +918,6 @@
             
             // 新增本地讀取按鈕事件
             localFileBtn.addEventListener('click', function() {
-                // 創建隱藏的檔案輸入元素
                 const fileInput = document.createElement('input');
                 fileInput.type = 'file';
                 fileInput.accept = '.xlsx,.xls,.csv';
@@ -865,7 +928,6 @@
                     if (file) {
                         loadLocalExcelFile(file);
                     }
-                    // 清理DOM
                     document.body.removeChild(fileInput);
                 });
                 
@@ -875,7 +937,6 @@
             
             // 載入本地Excel文件
             function loadLocalExcelFile(file) {
-                // 顯示載入狀態
                 tableContainer.innerHTML = '<div class="no-data">正在讀取本地文件...</div>';
                 sheetSelector.style.display = 'none';
                 currentSortColumn = null;
@@ -883,7 +944,6 @@
                 selectedRows.clear();
                 updateSelectionInfo();
                 
-                // 顯示載入狀態
                 localFileBtn.disabled = true;
                 localFileBtn.textContent = '讀取中...';
                 
@@ -894,15 +954,11 @@
                         const data = new Uint8Array(e.target.result);
                         currentWorkbook = XLSX.read(data, { type: 'array' });
                         
-                        // 清空表格容器
                         tableContainer.innerHTML = '';
-                        // 重新顯示工作簿
                         displayWorkbook(currentWorkbook);
                         
-                        // 顯示成功訊息
                         showShortcutHint(`成功載入: ${file.name}`);
                         
-                        // 載入完成後焦點移到表格
                         setTimeout(() => {
                             tableWrapper.focus();
                         }, 500);
@@ -911,7 +967,6 @@
                         tableContainer.innerHTML = `<div class="no-data">讀取失敗: ${error.message}</div>`;
                         showShortcutHint('文件讀取失敗');
                     } finally {
-                        // 恢復按鈕狀態
                         localFileBtn.disabled = false;
                         localFileBtn.textContent = '本地讀取 Excel';
                     }
@@ -929,13 +984,11 @@
             
             // 快捷鍵隱藏/顯示功能
             document.addEventListener('keydown', function(e) {
-                // Ctrl+Alt+F8: 切換本地讀取按鈕顯示
                 if (e.ctrlKey && e.altKey && e.key === 'F8') {
                     e.preventDefault();
                     toggleLocalFileButton();
                 }
                 
-                // 禁用工作表選擇器的鍵盤導航
                 if (sheetSelect === document.activeElement && 
                     ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
                     e.preventDefault();
@@ -954,7 +1007,6 @@
                     showShortcutHint('本地讀取按鈕已隱藏');
                 }
                 
-                // 保存用戶偏好
                 saveButtonVisibilityPreference();
             }
             
@@ -972,7 +1024,6 @@
                         localFileBtn.classList.add('btn-hidden');
                     }
                 } else {
-                    // 如果沒有保存的偏好設定，預設為隱藏
                     isLocalFileBtnVisible = false;
                     localFileBtn.classList.add('btn-hidden');
                 }
@@ -996,12 +1047,13 @@
                 
                 // 如果沒有任何篩選值被選擇，顯示所有數據
                 if (cpuFilterValues.size === 0 && gpuFilterValues.size === 0 && mgpFilterValues.size === 0) {
-                    displayFilteredData(dataRows);
+                    currentDisplayData = dataRows;
+                    displayFilteredData(currentDisplayData);
                     return;
                 }
                 
                 // 篩選數據
-                const filteredData = dataRows.filter(row => {
+                currentDisplayData = dataRows.filter(row => {
                     let cpuMatch = true;
                     let gpuMatch = true;
                     let mgpMatch = true;
@@ -1027,10 +1079,10 @@
                     return cpuMatch && gpuMatch && mgpMatch;
                 });
                 
-                displayFilteredData(filteredData);
+                displayFilteredData(currentDisplayData);
                 
                 // 更新篩選計數
-                updateFilterCounts(filteredData);
+                updateFilterCounts(currentDisplayData);
             }
             
             // 顯示篩選後的數據
@@ -1094,9 +1146,10 @@
                 
                 // 顯示所有數據
                 if (currentSheetData && currentSheetData.length > 1) {
-                    displayFilteredData(currentSheetData.slice(1));
+                    currentDisplayData = currentSheetData.slice(1);
+                    displayFilteredData(currentDisplayData);
                     // 重置篩選計數為原始值
-                    updateFilterCounts(currentSheetData.slice(1));
+                    updateFilterCounts(currentDisplayData);
                 }
             }
             
@@ -1362,12 +1415,11 @@
                 if (!currentSheetData) return;
                 
                 const headers = currentSheetData[0];
-                const dataRows = currentSheetData.slice(1);
                 
-                // 筛选选中的行
+                // 筛选选中的行 - 使用 currentDisplayData 而不是原始数据
                 const selectedData = Array.from(selectedRows)
                     .sort((a, b) => a - b)
-                    .map(rowIndex => dataRows[rowIndex]);
+                    .map(rowIndex => currentDisplayData[rowIndex]);
                 
                 // 创建新的工作簿
                 const exportData = [headers, ...selectedData];
@@ -1422,6 +1474,9 @@
                     .catch(error => {
                         console.error('加载Excel文件时出错:', error);
                         tableContainer.innerHTML = `<div class="no-data">加载失败: ${error.message}</div>`;
+                        // 恢复按钮状态
+                        refreshBtn.disabled = false;
+                        refreshBtn.textContent = '更新';
                     })
                     .finally(() => {
                         // 恢复按钮状态
@@ -1483,6 +1538,9 @@
                     return;
                 }
                 
+                // 初始化当前显示数据
+                currentDisplayData = jsonData.slice(1);
+                
                 // 创建表格
                 const table = document.createElement('table');
                 
@@ -1520,7 +1578,7 @@
                     const th = document.createElement('th');
                     
                     if (index === 0) {
-                        // 第一列不添加排序功能，文字居中
+                        // 第一列不添加排序功能，文字置中
                         th.textContent = header || '';
                     } else {
                         // 其他列添加排序功能（使用三角形图标，垂直排列在右侧）
@@ -1616,9 +1674,6 @@
                 tableContainer.innerHTML = '';
                 tableContainer.appendChild(table);
                 
-                // 自動調整欄寬
-                autoAdjustColumnWidths();
-                
                 // 提取欄位值並建立篩選選項
                 extractFilterValues();
                 
@@ -1636,78 +1691,14 @@
                 }
             }
             
-            // 自動調整欄寬函數
-            function autoAdjustColumnWidths() {
-                const table = tableContainer.querySelector('table');
-                if (!table) return;
-                
-                const headers = table.querySelectorAll('th');
-                const rows = table.querySelectorAll('tr');
-                
-                // 為每個欄位計算最大寬度
-                headers.forEach((header, colIndex) => {
-                    let maxWidth = 0;
-                    
-                    // 檢查表頭寬度
-                    const headerText = header.textContent || header.innerText;
-                    const headerWidth = getTextWidth(headerText, '0.9rem');
-                    maxWidth = Math.max(maxWidth, headerWidth);
-                    
-                    // 檢查該欄所有行的內容寬度
-                    rows.forEach(row => {
-                        const cell = row.cells[colIndex];
-                        if (cell) {
-                            const cellText = cell.textContent || cell.innerText;
-                            const cellWidth = getTextWidth(cellText, '0.9rem');
-                            maxWidth = Math.max(maxWidth, cellWidth);
-                        }
-                    });
-                    
-                    // 設置最小和最大寬度限制
-                    let minWidth, maxWidthLimit;
-                    if (colIndex === 0) {
-                        minWidth = 50;
-                        maxWidthLimit = 50;
-                    } else if (colIndex === 1) {
-                        minWidth = 80;
-                        maxWidthLimit = 200;
-                    } else {
-                        minWidth = 60;
-                        maxWidthLimit = 250;
-                    }
-                    
-                    const calculatedWidth = Math.max(minWidth, maxWidth + 16); // 加上內邊距
-                    const finalWidth = Math.min(calculatedWidth, maxWidthLimit); // 限制最大寬度
-                    
-                    header.style.minWidth = `${finalWidth}px`;
-                    header.style.maxWidth = `${finalWidth}px`;
-                    
-                    // 同時設置對應的 td 寬度
-                    rows.forEach(row => {
-                        const cell = row.cells[colIndex];
-                        if (cell && !cell.classList.contains('select-checkbox')) {
-                            cell.style.minWidth = `${finalWidth}px`;
-                            cell.style.maxWidth = `${finalWidth}px`;
-                        }
-                    });
-                });
-            }
-            
-            // 計算文字寬度的輔助函數
-            function getTextWidth(text, fontSize) {
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                context.font = `${fontSize} 'Segoe UI', 'Microsoft JhengHei', sans-serif`;
-                const metrics = context.measureText(text);
-                return metrics.width;
-            }
-            
-            // 排序表格
+            // 排序表格 - 修復：排序時保持篩選狀態
             function sortTable(columnIndex, direction) {
                 if (!currentSheetData || currentSheetData.length < 2) return;
                 
                 const headers = currentSheetData[0];
-                const dataRows = currentSheetData.slice(1);
+                
+                // 對當前顯示的數據進行排序，而不是原始數據
+                const dataRows = [...currentDisplayData];
                 
                 // 排序数据
                 dataRows.sort((a, b) => {
@@ -1734,8 +1725,8 @@
                     }
                 });
                 
-                // 更新当前数据
-                currentSheetData = [headers, ...dataRows];
+                // 更新当前显示数据
+                currentDisplayData = dataRows;
                 currentSortColumn = columnIndex;
                 currentSortDirection = direction;
                 
