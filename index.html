@@ -205,7 +205,7 @@
             border-collapse: collapse;
             border-spacing: 0;
             font-size: 0.9rem;
-            table-layout: auto; /* 改為自動佈局以實現欄寬自動調整 */
+            table-layout: auto;
         }
         
         th {
@@ -267,16 +267,15 @@
             text-align: center;
         }
         
-        /* 其他欄位 - 移除固定寬度，讓欄寬自動調整 */
+        /* 其他欄位 */
         th:not(:first-child):not(:nth-child(2)),
         td:not(:first-child):not(:nth-child(2)) {
             padding: 8px 12px;
             overflow: hidden;
             text-overflow: ellipsis;
             text-align: center;
-            /* 移除固定寬度，讓欄寬根據內容自動調整 */
-            min-width: 100px; /* 設置最小寬度 */
-            max-width: 300px; /* 設置最大寬度 */
+            min-width: 100px;
+            max-width: 300px;
         }
         
         /* 斑馬紋效果 */
@@ -312,7 +311,7 @@
             accent-color: #4b6cb7;
         }
         
-        /* 改進表頭樣式以確保排序箭頭有足夠空間 */
+        /* 排序样式 */
         th.sortable {
             cursor: pointer;
             transition: background-color 0.3s;
@@ -335,7 +334,6 @@
             padding: 2px 0;
         }
         
-        /* 調整排序圖標大小和間距 */
         .sort-icons {
             display: flex;
             flex-direction: column;
@@ -343,7 +341,6 @@
             margin-left: 4px;
         }
         
-        /* 三角形排序图标 */
         .sort-icon {
             width: 0;
             height: 0;
@@ -914,6 +911,11 @@
             // 當前顯示的數據（篩選後）
             let currentDisplayData = [];
             
+            // 篩選選項的完整數據（用於動態更新計數）
+            let cpuFilterOptionsData = [];
+            let gpuFilterOptionsData = [];
+            let mgpFilterOptionsData = [];
+            
             // 創建快捷鍵提示元素
             const createShortcutHint = () => {
                 const hint = document.createElement('div');
@@ -1099,13 +1101,12 @@
                 const headers = currentSheetData[0];
                 const dataRows = currentSheetData.slice(1);
                 
-                // 更新篩選計數（基於完整數據）
-                updateFilterCounts(dataRows);
-                
                 // 如果沒有任何篩選值被選擇，顯示所有數據
                 if (cpuFilterValues.size === 0 && gpuFilterValues.size === 0 && mgpFilterValues.size === 0) {
                     currentDisplayData = dataRows;
                     displayFilteredData(currentDisplayData);
+                    // 更新篩選計數（基於完整數據）
+                    updateFilterCounts(dataRows);
                     return;
                 }
                 
@@ -1137,6 +1138,9 @@
                 });
                 
                 displayFilteredData(currentDisplayData);
+                
+                // 更新篩選計數（基於篩選後的數據）
+                updateFilterCounts(currentDisplayData);
                 
                 // 保存篩選狀態
                 saveFilterState();
@@ -1214,11 +1218,11 @@
                 saveFilterState();
             }
             
-            // 更新篩選計數（根據完整數據）
+            // 更新篩選計數（根據傳入的數據）
             function updateFilterCounts(data) {
                 if (!data || data.length === 0) return;
                 
-                // 計算每個篩選類別在完整數據中的計數
+                // 計算每個篩選類別在傳入數據中的計數
                 const cpuCounts = {};
                 const gpuCounts = {};
                 const mgpCounts = {};
@@ -1269,7 +1273,7 @@
                         countElement.textContent = count;
                         
                         // 如果計數為0，則禁用該選項
-                        if (count === 0 && !checkbox.checked) {
+                        if (count === 0) {
                             checkbox.disabled = true;
                             checkbox.parentNode.style.opacity = '0.5';
                             checkbox.parentNode.style.cursor = 'not-allowed';
@@ -1351,6 +1355,9 @@
                 extractAndRenderFilterValues('gpu', gpuColumnIndex, gpuFilterOptions, gpuNoData);
                 extractAndRenderFilterValues('mgp', mgpColumnIndex, mgpFilterOptions, mgpNoData);
                 
+                // 初始更新篩選計數（基於完整數據）
+                updateFilterCounts(originalDataRows);
+                
                 // 加載保存的篩選狀態
                 loadFilterState();
                 
@@ -1387,6 +1394,15 @@
                         valueCounts[valueStr] = (valueCounts[valueStr] || 0) + 1;
                     }
                 });
+                
+                // 保存篩選選項數據
+                if (filterType === 'cpu') {
+                    cpuFilterOptionsData = Array.from(allValues).sort();
+                } else if (filterType === 'gpu') {
+                    gpuFilterOptionsData = Array.from(allValues).sort();
+                } else if (filterType === 'mgp') {
+                    mgpFilterOptionsData = Array.from(allValues).sort();
+                }
                 
                 // 渲染篩選選項
                 if (allValues.size > 0) {
@@ -1437,6 +1453,10 @@
                                 mgpFilterValues.delete(this.value);
                             }
                         }
+                        
+                        // 立即应用筛选并更新计数
+                        applyFilter();
+                        
                         // 保存篩選狀態
                         saveFilterState();
                     });
