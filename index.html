@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming Laptop Performance Benchmark</title>
+    <title>Excel 表格筛选系统 - 欄寬優化</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
@@ -205,13 +205,13 @@
             border-collapse: collapse;
             border-spacing: 0;
             font-size: 0.9rem;
-            table-layout: fixed;
+            table-layout: auto; /* 改為自動佈局以實現欄寬自動調整 */
         }
         
         th {
             background-color: #4b6cb7;
             color: white;
-            padding: 8px 8px;
+            padding: 8px 12px;
             text-align: center;
             font-weight: 600;
             position: sticky;
@@ -246,7 +246,7 @@
             text-align: center;
         }
         
-        /* 第2欄固定 - 增加寬度以容納更多內容 */
+        /* 第2欄固定 */
         th:nth-child(2),
         td:nth-child(2) {
             position: sticky;
@@ -256,7 +256,7 @@
             width: 180px;
             min-width: 180px;
             max-width: 180px;
-            padding: 8px 8px;
+            padding: 8px 12px;
             border-right: 2px solid #3a5ca9;
             text-align: center;
         }
@@ -267,36 +267,16 @@
             text-align: center;
         }
         
-        /* CPU欄位 - 增加寬度 */
-        th:nth-child(3),
-        td:nth-child(3) {
-            width: 130px;
-            min-width: 130px;
-            max-width: 130px;
-            padding: 8px 8px;
-            text-align: center;
-        }
-        
-        /* GPU欄位 - 增加寬度 */
-        th:nth-child(4),
-        td:nth-child(4) {
-            width: 130px;
-            min-width: 130px;
-            max-width: 130px;
-            padding: 8px 8px;
-            text-align: center;
-        }
-        
-        /* 其他欄位 - 增加寬度以確保排序箭頭可見 */
-        th:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)),
-        td:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
-            width: 150px;
-            min-width: 150px;
-            max-width: 150px;
-            padding: 8px 8px;
+        /* 其他欄位 - 移除固定寬度，讓欄寬自動調整 */
+        th:not(:first-child):not(:nth-child(2)),
+        td:not(:first-child):not(:nth-child(2)) {
+            padding: 8px 12px;
             overflow: hidden;
             text-overflow: ellipsis;
             text-align: center;
+            /* 移除固定寬度，讓欄寬根據內容自動調整 */
+            min-width: 100px; /* 設置最小寬度 */
+            max-width: 300px; /* 設置最大寬度 */
         }
         
         /* 斑馬紋效果 */
@@ -396,7 +376,7 @@
         }
         
         td {
-            padding: 8px 8px;
+            padding: 8px 12px;
             border: 1px solid #e0e0e0;
             white-space: nowrap;
             background-color: white;
@@ -623,6 +603,28 @@
             font-size: 0.85rem;
         }
 
+        /* 欄寬調整控制按鈕 */
+        .column-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .column-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .column-btn:hover {
+            background: #5a6268;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.8rem;
@@ -652,7 +654,7 @@
             }
             
             th, td {
-                padding: 6px 6px;
+                padding: 6px 8px;
                 font-size: 0.85rem;
             }
             
@@ -675,33 +677,15 @@
                 width: 140px;
                 min-width: 140px;
                 max-width: 140px;
-                padding: 6px 6px;
-            }
-            
-            /* 移動端CPU和GPU欄位 */
-            th:nth-child(3),
-            td:nth-child(3) {
-                width: 100px;
-                min-width: 100px;
-                max-width: 100px;
-                padding: 6px 6px;
-            }
-            
-            th:nth-child(4),
-            td:nth-child(4) {
-                width: 100px;
-                min-width: 100px;
-                max-width: 100px;
-                padding: 6px 6px;
+                padding: 6px 8px;
             }
             
             /* 移動端其他列 */
-            th:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)),
-            td:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
-                width: 120px;
-                min-width: 120px;
-                max-width: 120px;
-                padding: 6px 6px;
+            th:not(:first-child):not(:nth-child(2)),
+            td:not(:first-child):not(:nth-child(2)) {
+                min-width: 80px;
+                max-width: 200px;
+                padding: 6px 8px;
             }
 
             /* 移動端調整排序圖標 */
@@ -758,7 +742,7 @@
             }
             
             th, td {
-                padding: 5px 5px;
+                padding: 5px 6px;
                 font-size: 0.8rem;
             }
             
@@ -782,33 +766,15 @@
                 width: 110px;
                 min-width: 110px;
                 max-width: 110px;
-                padding: 5px 5px;
-            }
-            
-            /* 手機端CPU和GPU欄位 */
-            th:nth-child(3),
-            td:nth-child(3) {
-                width: 80px;
-                min-width: 80px;
-                max-width: 80px;
-                padding: 5px 5px;
-            }
-            
-            th:nth-child(4),
-            td:nth-child(4) {
-                width: 80px;
-                min-width: 80px;
-                max-width: 80px;
-                padding: 5px 5px;
+                padding: 5px 6px;
             }
             
             /* 手機端其他列 */
-            th:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)),
-            td:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
-                width: 90px;
-                min-width: 90px;
-                max-width: 90px;
-                padding: 5px 5px;
+            th:not(:first-child):not(:nth-child(2)),
+            td:not(:first-child):not(:nth-child(2)) {
+                min-width: 60px;
+                max-width: 150px;
+                padding: 5px 6px;
             }
 
             /* 手機端進一步調整排序圖標 */
@@ -849,7 +815,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>Gaming Laptop Performance Benchmark</h1>
+            <h1>Excel 表格筛选系统 - 欄寬優化</h1>
         </header>
         
         <section class="control-section">
@@ -913,6 +879,12 @@
                 <button class="filter-btn" id="selectAllFilter">全選</button>
                 <button class="filter-btn" id="deselectAllFilter">取消全選</button>
             </div>
+            
+            <!-- 欄寬控制按鈕 -->
+            <div class="column-controls">
+                <button class="column-btn" id="autoResizeColumns">自動調整欄寬</button>
+                <button class="column-btn" id="resetColumnWidths">重置欄寬</button>
+            </div>
         </div>
         
         <section class="table-section">
@@ -936,6 +908,8 @@
             const localFileBtn = document.getElementById('localFileBtn');
             const selectionInfo = document.getElementById('selectionInfo');
             const filterToggleBtn = document.getElementById('filterToggleBtn');
+            const autoResizeColumnsBtn = document.getElementById('autoResizeColumns');
+            const resetColumnWidthsBtn = document.getElementById('resetColumnWidths');
             
             // 篩選相關元素
             const filterPanel = document.getElementById('filterPanel');
@@ -973,6 +947,9 @@
             
             // 當前顯示的數據（篩選後）
             let currentDisplayData = [];
+            
+            // 欄寬狀態
+            let columnWidths = {};
             
             // 創建快捷鍵提示元素
             const createShortcutHint = () => {
@@ -1030,6 +1007,26 @@
             
             // 頁面載入時載入篩選面板狀態
             loadFilterPanelState();
+            
+            // 載入欄寬設置
+            function loadColumnWidths() {
+                const savedWidths = localStorage.getItem('columnWidths');
+                if (savedWidths) {
+                    try {
+                        columnWidths = JSON.parse(savedWidths);
+                    } catch (e) {
+                        console.error('載入欄寬設置失敗:', e);
+                    }
+                }
+            }
+            
+            // 保存欄寬設置
+            function saveColumnWidths() {
+                localStorage.setItem('columnWidths', JSON.stringify(columnWidths));
+            }
+            
+            // 頁面載入時載入欄寬設置
+            loadColumnWidths();
             
             // 新增本地讀取按鈕事件
             localFileBtn.addEventListener('click', function() {
@@ -1140,6 +1137,109 @@
                 localStorage.setItem('filterPanelVisible', isFilterPanelVisible.toString());
             });
             
+            // 欄寬控制事件
+            autoResizeColumnsBtn.addEventListener('click', autoResizeColumns);
+            resetColumnWidthsBtn.addEventListener('click', resetColumnWidths);
+            
+            // 自動調整欄寬
+            function autoResizeColumns() {
+                const table = tableContainer.querySelector('table');
+                if (!table) return;
+                
+                const headers = table.querySelectorAll('th');
+                const rows = table.querySelectorAll('tr');
+                
+                // 計算每列的最大寬度
+                const maxWidths = {};
+                
+                // 遍歷所有行和列，計算每列的最大內容寬度
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('th, td');
+                    cells.forEach((cell, index) => {
+                        // 跳過固定列（第一列和第二列）
+                        if (index === 0 || index === 1) return;
+                        
+                        const cellWidth = getTextWidth(cell.textContent || '');
+                        if (!maxWidths[index] || cellWidth > maxWidths[index]) {
+                            maxWidths[index] = cellWidth;
+                        }
+                    });
+                });
+                
+                // 應用計算出的寬度
+                headers.forEach((header, index) => {
+                    // 跳過固定列（第一列和第二列）
+                    if (index === 0 || index === 1) return;
+                    
+                    if (maxWidths[index]) {
+                        const calculatedWidth = Math.max(100, Math.min(300, maxWidths[index] + 24)); // 加上padding
+                        header.style.width = calculatedWidth + 'px';
+                        header.style.minWidth = calculatedWidth + 'px';
+                        header.style.maxWidth = calculatedWidth + 'px';
+                        
+                        // 保存欄寬設置
+                        columnWidths[index] = calculatedWidth;
+                    }
+                });
+                
+                // 保存欄寬設置
+                saveColumnWidths();
+                
+                showShortcutHint('欄寬已自動調整');
+            }
+            
+            // 重置欄寬
+            function resetColumnWidths() {
+                const table = tableContainer.querySelector('table');
+                if (!table) return;
+                
+                const headers = table.querySelectorAll('th');
+                
+                headers.forEach((header, index) => {
+                    // 跳過固定列（第一列和第二列）
+                    if (index === 0 || index === 1) return;
+                    
+                    header.style.width = '';
+                    header.style.minWidth = '';
+                    header.style.maxWidth = '';
+                    
+                    // 從保存的設置中移除
+                    delete columnWidths[index];
+                });
+                
+                // 保存欄寬設置
+                saveColumnWidths();
+                
+                showShortcutHint('欄寬已重置');
+            }
+            
+            // 計算文字寬度
+            function getTextWidth(text) {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                context.font = '0.9rem "Segoe UI", "Microsoft JhengHei", sans-serif';
+                return context.measureText(text).width;
+            }
+            
+            // 應用保存的欄寬設置
+            function applySavedColumnWidths() {
+                const table = tableContainer.querySelector('table');
+                if (!table) return;
+                
+                const headers = table.querySelectorAll('th');
+                
+                headers.forEach((header, index) => {
+                    // 跳過固定列（第一列和第二列）
+                    if (index === 0 || index === 1) return;
+                    
+                    if (columnWidths[index]) {
+                        header.style.width = columnWidths[index] + 'px';
+                        header.style.minWidth = columnWidths[index] + 'px';
+                        header.style.maxWidth = columnWidths[index] + 'px';
+                    }
+                });
+            }
+            
             // 篩選功能事件監聽
             applyFilterBtn.addEventListener('click', applyFilter);
             clearFilterBtn.addEventListener('click', clearFilter);
@@ -1242,6 +1342,7 @@
                     for (let j = 0; j < headers.length; j++) {
                         const td = document.createElement('td');
                         td.textContent = rowData[j] || '';
+                        td.title = rowData[j] || ''; // 添加title屬性以便懸停顯示完整內容
                         row.appendChild(td);
                     }
                     
@@ -1249,6 +1350,9 @@
                 });
                 
                 updateRowSelectionStyles();
+                
+                // 應用保存的欄寬設置
+                applySavedColumnWidths();
             }
             
             // 清除篩選
@@ -1765,6 +1869,7 @@
                 const headers = jsonData[0];
                 headers.forEach((header, index) => {
                     const th = document.createElement('th');
+                    th.title = header || ''; // 添加title屬性以便懸停顯示完整內容
                     
                     if (index === 0) {
                         // 第一列不添加排序功能，文字置中
@@ -1853,6 +1958,7 @@
                     for (let j = 0; j < headers.length; j++) {
                         const td = document.createElement('td');
                         td.textContent = rowData[j] || '';
+                        td.title = rowData[j] || ''; // 添加title屬性以便懸停顯示完整內容
                         row.appendChild(td);
                     }
                     
@@ -1865,6 +1971,9 @@
                 
                 // 提取欄位值並建立篩選選項
                 extractFilterValues();
+                
+                // 應用保存的欄寬設置
+                applySavedColumnWidths();
                 
                 // 强制触发重排以确保滚动条显示
                 setTimeout(() => {
@@ -1951,6 +2060,7 @@
                     for (let j = 0; j < headers.length; j++) {
                         const td = document.createElement('td');
                         td.textContent = rowData[j] || '';
+                        td.title = rowData[j] || ''; // 添加title屬性以便懸停顯示完整內容
                         row.appendChild(td);
                     }
                     
@@ -1961,6 +2071,9 @@
                 
                 // 更新排序图标状态
                 updateSortIcons(columnIndex, direction);
+                
+                // 應用保存的欄寬設置
+                applySavedColumnWidths();
             }
             
             // 更新排序图标状态
