@@ -797,20 +797,20 @@
             <div class="left-controls">
                 <div class="control-group">
                     <div class="sheet-selector" id="sheetSelector" style="display: none;">
-                        <label for="sheetSelect">选择工作表:</label>
+                        <label for="sheetSelect">Select:</label>
                         <select id="sheetSelect"></select>
                     </div>
                 </div>
                 <!-- 新增筛选面板切换按钮 -->
-                <button class="btn btn-filter" id="filterToggleBtn">📊 显示筛选</button>
+                <button class="btn btn-filter" id="filterToggleBtn">📊 Show item</button>
             </div>
             <div class="right-controls">
                 <div class="selection-group">
-                    <button class="btn btn-select-all" id="selectAllBtn">全选</button>
-                    <span class="selection-info" id="selectionInfo">已选择 0 行</span>
+                    <button class="btn btn-select-all" id="selectAllBtn">Select All</button>
+                    <span class="selection-info" id="selectionInfo">Select 0  </span>
                     <!-- 新增本地讀取按鈕 -->
                     <button class="btn btn-local btn-hidden" id="localFileBtn">本地读取 Excel</button>
-                    <button class="btn btn-export" id="exportBtn">匯出選取資料</button>
+                    <button class="btn btn-export" id="exportBtn">Output</button>
                     <button class="btn btn-refresh" id="refreshBtn">更新</button>
                 </div>
             </div>
@@ -820,7 +820,7 @@
         <div class="filter-panel" id="filterPanel">
             <div class="filter-section" id="cpuFilterSection">
                 <div class="filter-header">
-                    <div class="filter-title">CPU 篩選:</div>
+                    <div class="filter-title">CPU item:</div>
                 </div>
                 <div class="filter-options" id="cpuFilterOptions">
                     <!-- CPU篩選選項將在這裡動態生成 -->
@@ -830,7 +830,7 @@
             
             <div class="filter-section" id="gpuFilterSection">
                 <div class="filter-header">
-                    <div class="filter-title">GPU 篩選:</div>
+                    <div class="filter-title">GPU item:</div>
                 </div>
                 <div class="filter-options" id="gpuFilterOptions">
                     <!-- GPU篩選選項將在這裡動態生成 -->
@@ -840,7 +840,7 @@
             
             <div class="filter-section" id="mgpFilterSection">
                 <div class="filter-header">
-                    <div class="filter-title">MGP 篩選:</div>
+                    <div class="filter-title">MGP item:</div>
                 </div>
                 <div class="filter-options" id="mgpFilterOptions">
                     <!-- MGP篩選選項將在這裡動態生成 -->
@@ -962,11 +962,11 @@
                 if (savedFilterState === 'true') {
                     isFilterPanelVisible = true;
                     filterPanel.style.display = 'block';
-                    filterToggleBtn.innerHTML = '📊 隐藏筛选';
+                    filterToggleBtn.innerHTML = '📊 Hide item';
                 } else {
                     isFilterPanelVisible = false;
                     filterPanel.style.display = 'none';
-                    filterToggleBtn.innerHTML = '📊 显示筛选';
+                    filterToggleBtn.innerHTML = '📊 Show item';
                 }
             }
             
@@ -1076,7 +1076,7 @@
             filterToggleBtn.addEventListener('click', function() {
                 isFilterPanelVisible = !isFilterPanelVisible;
                 filterPanel.style.display = isFilterPanelVisible ? 'block' : 'none';
-                filterToggleBtn.innerHTML = isFilterPanelVisible ? '📊 隐藏筛选' : '📊 显示筛选';
+                filterToggleBtn.innerHTML = isFilterPanelVisible ? '📊 Hide item' : '📊 Show item';
                 
                 // 保存篩選面板狀態
                 localStorage.setItem('filterPanelVisible', isFilterPanelVisible.toString());
@@ -1116,19 +1116,19 @@
                     let gpuMatch = true;
                     let mgpMatch = true;
                     
-                    // CPU 篩選
+                    // CPU item
                     if (cpuColumnIndex !== -1 && cpuFilterValues.size > 0) {
                         const cpuValue = row[cpuColumnIndex] || '';
                         cpuMatch = cpuFilterValues.has(cpuValue.toString());
                     }
                     
-                    // GPU 篩選
+                    // GPU item
                     if (gpuColumnIndex !== -1 && gpuFilterValues.size > 0) {
                         const gpuValue = row[gpuColumnIndex] || '';
                         gpuMatch = gpuFilterValues.has(gpuValue.toString());
                     }
                     
-                    // MGP 篩選
+                    // MGP item
                     if (mgpColumnIndex !== -1 && mgpFilterValues.size > 0) {
                         const mgpValue = row[mgpColumnIndex] || '';
                         mgpMatch = mgpFilterValues.has(mgpValue.toString());
@@ -1503,7 +1503,7 @@
             
             // 更新選擇信息
             function updateSelectionInfo() {
-                selectionInfo.textContent = `已选择 ${selectedRows.size} 行`;
+                selectionInfo.textContent = `Select ${selectedRows.size} `;
             }
             
             // 更新行选择样式
