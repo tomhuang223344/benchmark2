@@ -16,7 +16,7 @@
         html, body {
             height: 100%;
             overflow: hidden;
-            font-size: 16px;
+            font-size: 16px; /* 設定基準字型大小 */
         }
         
         body {
@@ -24,7 +24,7 @@
             color: #333;
             display: flex;
             flex-direction: column;
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 桌面版字型設定為 0.9rem */
         }
         
         .container {
@@ -57,7 +57,7 @@
             border-bottom: 1px solid #e0e0e0;
             background: #f8faff;
             flex-shrink: 0;
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 控制區域字型 */
         }
         
         .left-controls {
@@ -90,7 +90,7 @@
             border: none;
             padding: 10px 20px;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 按鈕字型 */
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 2px 5px rgba(75, 108, 183, 0.3);
@@ -133,6 +133,19 @@
             box-shadow: 0 4px 8px rgba(108, 117, 125, 0.4);
         }
         
+        .btn-local {
+            background: linear-gradient(90deg, #ff6b6b 0%, #ee5a52 100%);
+            box-shadow: 0 2px 5px rgba(255, 107, 107, 0.3);
+        }
+        
+        .btn-local:hover {
+            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.4);
+        }
+        
+        .btn-hidden {
+            display: none !important;
+        }
+        
         .table-section {
             flex: 1;
             padding: 20px;
@@ -140,7 +153,7 @@
             flex-direction: column;
             min-height: 0;
             overflow: hidden;
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 表格區域字型 */
         }
         
         .sheet-selector {
@@ -156,9 +169,10 @@
             background-color: white;
             outline: none;
             min-width: 120px;
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 選擇器字型 */
         }
         
+        /* 禁用选择器的键盘导航 */
         .sheet-selector select:focus {
             box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
         }
@@ -182,14 +196,14 @@
             width: auto;
             border-collapse: collapse;
             border-spacing: 0;
-            font-size: 0.9rem;
-            table-layout: fixed; /* 改為固定佈局 */
+            font-size: 0.9rem; /* 表格字型 */
+            table-layout: auto; /* 改為自動佈局，讓欄寬根據內容調整 */
         }
         
         th {
             background-color: #4b6cb7;
             color: white;
-            padding: 6px 4px; /* 最小內邊距 */
+            padding: 8px 10px; /* 減少內邊距 */
             text-align: center;
             font-weight: 600;
             position: sticky;
@@ -197,10 +211,12 @@
             user-select: none;
             white-space: nowrap;
             z-index: 10;
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 表頭字型 */
+            min-width: 60px; /* 最小寬度 */
+            max-width: 300px; /* 最大寬度限制 */
             overflow: hidden;
             text-overflow: ellipsis;
-            border: 1px solid #3a5ca9;
+            border: 1px solid #3a5ca9; /* 表頭格線 */
         }
         
         /* 选择框列 - 第1欄固定 */
@@ -213,35 +229,39 @@
             width: 50px;
             min-width: 50px;
             max-width: 50px;
-            padding: 6px 4px;
-            border-right: 2px solid #2a4c99;
+            padding: 8px 5px; /* 選擇框列內邊距更小 */
+            border-right: 2px solid #2a4c99; /* 更深的右邊框 */
         }
         
         td:first-child {
             background-color: white;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e0e0e0; /* 加入格線 */
         }
         
         /* 第2欄固定 */
         th:nth-child(2),
         td:nth-child(2) {
             position: sticky;
-            left: 50px;
+            left: 50px; /* 第1欄的寬度 */
             z-index: 14;
             background-color: #4b6cb7;
-            padding: 6px 4px;
-            border-right: 2px solid #3a5ca9;
+            min-width: 80px; /* 減少最小寬度 */
+            max-width: 200px; /* 限制最大寬度 */
+            padding: 8px 8px; /* 適中的內邊距 */
+            border-right: 2px solid #3a5ca9; /* 更深的右邊框 */
         }
         
         td:nth-child(2) {
             background-color: white;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e0e0e0; /* 加入格線 */
         }
         
-        /* 其他欄位 */
+        /* 其他欄位的縮排 */
         th:not(:first-child):not(:nth-child(2)),
         td:not(:first-child):not(:nth-child(2)) {
-            padding: 6px 4px;
+            padding: 6px 8px; /* 統一的內邊距 */
+            min-width: 60px;
+            max-width: 250px;
         }
         
         /* 斑馬紋效果 */
@@ -292,32 +312,33 @@
         .header-content {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
             justify-content: center;
         }
         
         .sort-icons {
             display: flex;
             flex-direction: column;
-            gap: 1px;
-            margin-left: 4px;
+            gap: 2px;
+            margin-left: 6px;
         }
         
+        /* 三角形排序图标 - 放大一倍 */
         .sort-icon {
             width: 0;
             height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
             opacity: 0.5;
             transition: all 0.3s;
         }
         
         .sort-icon.sort-up {
-            border-bottom: 6px solid white;
+            border-bottom: 8px solid white;
         }
         
         .sort-icon.sort-down {
-            border-top: 6px solid white;
+            border-top: 8px solid white;
         }
         
         .sort-icon.active {
@@ -333,12 +354,14 @@
         }
         
         td {
-            padding: 6px 4px;
-            border: 1px solid #e0e0e0;
+            padding: 6px 8px; /* 減少內邊距 */
+            border: 1px solid #e0e0e0; /* 加入格線 */
             white-space: nowrap;
             background-color: white;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 表格內容字型 */
+            min-width: 60px; /* 最小寬度 */
+            max-width: 300px; /* 最大寬度限制 */
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -346,7 +369,7 @@
         /* 选中行的样式 */
         tr.selected td {
             background-color: #e3f2fd !important;
-            border-color: #bbdefb;
+            border-color: #bbdefb; /* 选中行的格線顏色 */
         }
         
         tr.selected:hover td {
@@ -362,11 +385,11 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 無資料提示字型 */
         }
         
         .selection-info {
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 選擇資訊字型 */
             color: #666;
             white-space: nowrap;
         }
@@ -400,9 +423,30 @@
             background: #f1f1f1;
         }
         
+        /* Firefox 滚动条 */
         .table-wrapper {
             scrollbar-width: thin;
             scrollbar-color: #c1c1c1 #f1f1f1;
+        }
+
+        /* 快捷鍵提示 */
+        .shortcut-hint {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .shortcut-hint.show {
+            opacity: 1;
         }
 
         @media (max-width: 768px) {
@@ -434,14 +478,15 @@
             }
             
             th, td {
-                padding: 5px 3px;
-                font-size: 0.85rem;
+                padding: 5px 6px; /* 移動端更小的內邊距 */
+                font-size: 0.85rem; /* 平板字型稍小 */
             }
             
             .table-section {
                 padding: 15px;
             }
             
+            /* 移動端調整固定列的寬度 */
             th:first-child,
             td:first-child {
                 width: 40px;
@@ -453,7 +498,17 @@
             th:nth-child(2),
             td:nth-child(2) {
                 left: 40px;
-                padding: 5px 3px;
+                min-width: 70px;
+                max-width: 150px;
+                padding: 5px 5px;
+            }
+            
+            /* 移動端其他列的最小寬度 */
+            th:not(:first-child):not(:nth-child(2)),
+            td:not(:first-child):not(:nth-child(2)) {
+                min-width: 50px;
+                max-width: 180px;
+                padding: 5px 6px;
             }
         }
         
@@ -467,8 +522,8 @@
             }
             
             th, td {
-                padding: 4px 2px;
-                font-size: 0.8rem;
+                padding: 4px 5px;
+                font-size: 0.8rem; /* 手機字型最小 */
             }
             
             .btn {
@@ -476,6 +531,7 @@
                 font-size: 0.85rem;
             }
             
+            /* 移動端進一步調整固定列的寬度 */
             th:first-child,
             td:first-child {
                 width: 35px;
@@ -487,7 +543,17 @@
             th:nth-child(2),
             td:nth-child(2) {
                 left: 35px;
-                padding: 4px 2px;
+                min-width: 60px;
+                max-width: 120px;
+                padding: 4px 4px;
+            }
+            
+            /* 手機端其他列的最小寬度 */
+            th:not(:first-child):not(:nth-child(2)),
+            td:not(:first-child):not(:nth-child(2)) {
+                min-width: 40px;
+                max-width: 140px;
+                padding: 4px 5px;
             }
         }
     </style>
@@ -511,6 +577,8 @@
                 <div class="selection-group">
                     <button class="btn btn-select-all" id="selectAllBtn">Select All</button>
                     <span class="selection-info" id="selectionInfo">已选择 0 行</span>
+                    <!-- 新增本地讀取按鈕 -->
+                    <button class="btn btn-local btn-hidden" id="localFileBtn">本地讀取 Excel</button>
                     <button class="btn btn-export" id="exportBtn">匯出選取資料</button>
                     <button class="btn btn-refresh" id="refreshBtn">更新</button>
                 </div>
@@ -535,6 +603,7 @@
             const selectAllBtn = document.getElementById('selectAllBtn');
             const refreshBtn = document.getElementById('refreshBtn');
             const exportBtn = document.getElementById('exportBtn');
+            const localFileBtn = document.getElementById('localFileBtn'); // 新增本地讀取按鈕
             const selectionInfo = document.getElementById('selectionInfo');
             
             let currentWorkbook = null;
@@ -542,25 +611,164 @@
             let currentSortColumn = null;
             let currentSortDirection = null;
             let selectedRows = new Set();
+            let isLocalFileBtnVisible = true; // 追蹤按鈕顯示狀態
             
-            // 页面加载时自动读取文件
+            // 創建快捷鍵提示元素
+            const createShortcutHint = () => {
+                const hint = document.createElement('div');
+                hint.className = 'shortcut-hint';
+                hint.textContent = 'Ctrl+Alt+F8: 顯示/隱藏本地讀取按鈕';
+                document.body.appendChild(hint);
+                return hint;
+            };
+            
+            const shortcutHint = createShortcutHint();
+            
+            // 顯示快捷鍵提示
+            function showShortcutHint(message) {
+                shortcutHint.textContent = message;
+                shortcutHint.classList.add('show');
+                setTimeout(() => {
+                    shortcutHint.classList.remove('show');
+                }, 2000);
+            }
+            
+            // 頁面加載時自動讀取文件
             loadExcelFile();
             
-            // 禁用工作表选择器的键盘导航
-            sheetSelect.addEventListener('keydown', function(e) {
-                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+            // 新增本地讀取按鈕事件
+            localFileBtn.addEventListener('click', function() {
+                // 創建隱藏的檔案輸入元素
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = '.xlsx,.xls,.csv';
+                fileInput.style.display = 'none';
+                
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        loadLocalExcelFile(file);
+                    }
+                    // 清理DOM
+                    document.body.removeChild(fileInput);
+                });
+                
+                document.body.appendChild(fileInput);
+                fileInput.click();
+            });
+            
+            // 載入本地Excel文件
+            function loadLocalExcelFile(file) {
+                // 顯示載入狀態
+                tableContainer.innerHTML = '<div class="no-data">正在讀取本地文件...</div>';
+                sheetSelector.style.display = 'none';
+                currentSortColumn = null;
+                currentSortDirection = null;
+                selectedRows.clear();
+                updateSelectionInfo();
+                
+                // 顯示載入狀態
+                localFileBtn.disabled = true;
+                localFileBtn.textContent = '讀取中...';
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        currentWorkbook = XLSX.read(data, { type: 'array' });
+                        
+                        // 清空表格容器
+                        tableContainer.innerHTML = '';
+                        // 重新顯示工作簿
+                        displayWorkbook(currentWorkbook);
+                        
+                        // 顯示成功訊息
+                        showShortcutHint(`成功載入: ${file.name}`);
+                        
+                        // 載入完成後焦點移到表格
+                        setTimeout(() => {
+                            tableWrapper.focus();
+                        }, 500);
+                    } catch (error) {
+                        console.error('讀取本地Excel文件時出錯:', error);
+                        tableContainer.innerHTML = `<div class="no-data">讀取失敗: ${error.message}</div>`;
+                        showShortcutHint('文件讀取失敗');
+                    } finally {
+                        // 恢復按鈕狀態
+                        localFileBtn.disabled = false;
+                        localFileBtn.textContent = '本地讀取 Excel';
+                    }
+                };
+                
+                reader.onerror = function() {
+                    tableContainer.innerHTML = '<div class="no-data">文件讀取錯誤</div>';
+                    localFileBtn.disabled = false;
+                    localFileBtn.textContent = '本地讀取 Excel';
+                    showShortcutHint('文件讀取錯誤');
+                };
+                
+                reader.readAsArrayBuffer(file);
+            }
+            
+            // 快捷鍵隱藏/顯示功能
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+Alt+F8: 切換本地讀取按鈕顯示
+                if (e.ctrlKey && e.altKey && e.key === 'F8') {
+                    e.preventDefault();
+                    toggleLocalFileButton();
+                }
+                
+                // 禁用工作表選擇器的鍵盤導航
+                if (sheetSelect === document.activeElement && 
+                    ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
                     e.preventDefault();
                 }
             });
             
-            // 选择工作表后焦点移到表格
+            // 切換本地讀取按鈕顯示狀態
+            function toggleLocalFileButton() {
+                isLocalFileBtnVisible = !isLocalFileBtnVisible;
+                
+                if (isLocalFileBtnVisible) {
+                    localFileBtn.classList.remove('btn-hidden');
+                    showShortcutHint('本地讀取按鈕已顯示');
+                } else {
+                    localFileBtn.classList.add('btn-hidden');
+                    showShortcutHint('本地讀取按鈕已隱藏');
+                }
+                
+                // 保存用戶偏好
+                saveButtonVisibilityPreference();
+            }
+            
+            // 保存按鈕顯示狀態到本地存儲
+            function saveButtonVisibilityPreference() {
+                localStorage.setItem('localFileBtnVisible', isLocalFileBtnVisible.toString());
+            }
+            
+            // 載入按鈕顯示狀態
+            function loadButtonVisibilityPreference() {
+                const saved = localStorage.getItem('localFileBtnVisible');
+                if (saved !== null) {
+                    isLocalFileBtnVisible = saved === 'true';
+                    if (!isLocalFileBtnVisible) {
+                        localFileBtn.classList.add('btn-hidden');
+                    }
+                }
+            }
+            
+            // 頁面載入時載入按鈕顯示狀態
+            loadButtonVisibilityPreference();
+            
+            // 選擇工作表後焦點移到表格
             sheetSelect.addEventListener('change', function() {
                 setTimeout(() => {
                     tableWrapper.focus();
                 }, 100);
             });
             
-            // 全选按钮事件
+            // 全選按鈕事件
             selectAllBtn.addEventListener('click', function() {
                 const checkboxes = tableContainer.querySelectorAll('.select-checkbox');
                 const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
@@ -579,17 +787,17 @@
                 updateRowSelectionStyles();
             });
             
-            // 更新按钮事件
+            // 更新按鈕事件
             refreshBtn.addEventListener('click', function() {
                 loadExcelFile();
             });
             
-            // 导出按钮事件
+            // 導出按鈕事件
             exportBtn.addEventListener('click', function() {
                 exportSelectedRows();
             });
             
-            // 更新选择信息
+            // 更新選擇信息
             function updateSelectionInfo() {
                 selectionInfo.textContent = `已选择 ${selectedRows.size} 行`;
             }
@@ -777,7 +985,7 @@
                         // 第一列不添加排序功能，文字居中
                         th.textContent = header || '';
                     } else {
-                        // 其他列添加排序功能
+                        // 其他列添加排序功能（使用三角形图标，垂直排列在右侧）
                         th.innerHTML = `
                             <div class="sortable">
                                 <div class="header-content">
@@ -794,6 +1002,7 @@
                         th.addEventListener('click', function(e) {
                             let sortDirection;
                             
+                            // 如果点击的是排序图标
                             if (e.target.classList.contains('sort-icon')) {
                                 if (e.target.classList.contains('sort-up')) {
                                     sortDirection = 'desc';
@@ -801,6 +1010,7 @@
                                     sortDirection = 'asc';
                                 }
                             } else {
+                                // 点击表头其他区域，切换排序方式
                                 if (currentSortColumn === index) {
                                     sortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
                                 } else {
@@ -868,13 +1078,14 @@
                 tableContainer.innerHTML = '';
                 tableContainer.appendChild(table);
                 
-                // 使用精確的欄寬計算
-                calculateExactColumnWidths();
+                // 自動調整欄寬
+                autoAdjustColumnWidths();
                 
                 // 强制触发重排以确保滚动条显示
                 setTimeout(() => {
                     tableWrapper.scrollTop = 0;
                     tableWrapper.scrollLeft = 0;
+                    // 触发滚动事件
                     tableWrapper.dispatchEvent(new Event('scroll'));
                 }, 100);
                 
@@ -884,36 +1095,21 @@
                 }
             }
             
-            // 精確計算欄寬
-            function calculateExactColumnWidths() {
+            // 自動調整欄寬函數
+            function autoAdjustColumnWidths() {
                 const table = tableContainer.querySelector('table');
                 if (!table) return;
                 
                 const headers = table.querySelectorAll('th');
                 const rows = table.querySelectorAll('tr');
                 
-                // 臨時設定表格為自動佈局來獲取自然寬度
-                table.style.tableLayout = 'auto';
-                
                 // 為每個欄位計算最大寬度
                 headers.forEach((header, colIndex) => {
-                    if (colIndex === 0) {
-                        // 第1欄固定寬度
-                        header.style.width = '50px';
-                        return;
-                    }
-                    
                     let maxWidth = 0;
                     
                     // 檢查表頭寬度
                     const headerText = header.textContent || header.innerText;
-                    const tempSpan = document.createElement('span');
-                    tempSpan.style.font = '0.9rem "Segoe UI", "Microsoft JhengHei", sans-serif';
-                    tempSpan.style.padding = '0 4px';
-                    tempSpan.textContent = headerText;
-                    document.body.appendChild(tempSpan);
-                    const headerWidth = tempSpan.offsetWidth;
-                    document.body.removeChild(tempSpan);
+                    const headerWidth = getTextWidth(headerText, '0.9rem');
                     maxWidth = Math.max(maxWidth, headerWidth);
                     
                     // 檢查該欄所有行的內容寬度
@@ -921,32 +1117,48 @@
                         const cell = row.cells[colIndex];
                         if (cell) {
                             const cellText = cell.textContent || cell.innerText;
-                            const tempSpan = document.createElement('span');
-                            tempSpan.style.font = '0.9rem "Segoe UI", "Microsoft JhengHei", sans-serif';
-                            tempSpan.style.padding = '0 4px';
-                            tempSpan.textContent = cellText;
-                            document.body.appendChild(tempSpan);
-                            const cellWidth = tempSpan.offsetWidth;
-                            document.body.removeChild(tempSpan);
+                            const cellWidth = getTextWidth(cellText, '0.9rem');
                             maxWidth = Math.max(maxWidth, cellWidth);
                         }
                     });
                     
-                    // 設置精確寬度
-                    const exactWidth = Math.ceil(maxWidth);
-                    header.style.width = `${exactWidth}px`;
+                    // 設置最小和最大寬度限制
+                    let minWidth, maxWidthLimit;
+                    if (colIndex === 0) {
+                        minWidth = 50;
+                        maxWidthLimit = 50;
+                    } else if (colIndex === 1) {
+                        minWidth = 80;
+                        maxWidthLimit = 200;
+                    } else {
+                        minWidth = 60;
+                        maxWidthLimit = 250;
+                    }
+                    
+                    const calculatedWidth = Math.max(minWidth, maxWidth + 16); // 加上內邊距
+                    const finalWidth = Math.min(calculatedWidth, maxWidthLimit); // 限制最大寬度
+                    
+                    header.style.minWidth = `${finalWidth}px`;
+                    header.style.maxWidth = `${finalWidth}px`;
                     
                     // 同時設置對應的 td 寬度
                     rows.forEach(row => {
                         const cell = row.cells[colIndex];
-                        if (cell) {
-                            cell.style.width = `${exactWidth}px`;
+                        if (cell && !cell.classList.contains('select-checkbox')) {
+                            cell.style.minWidth = `${finalWidth}px`;
+                            cell.style.maxWidth = `${finalWidth}px`;
                         }
                     });
                 });
-                
-                // 改回固定佈局
-                table.style.tableLayout = 'fixed';
+            }
+            
+            // 計算文字寬度的輔助函數
+            function getTextWidth(text, fontSize) {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                context.font = `${fontSize} 'Segoe UI', 'Microsoft JhengHei', sans-serif`;
+                const metrics = context.measureText(text);
+                return metrics.width;
             }
             
             // 排序表格
@@ -1026,9 +1238,6 @@
                 
                 updateRowSelectionStyles();
                 
-                // 重新調整欄寬
-                calculateExactColumnWidths();
-                
                 // 更新排序图标状态
                 updateSortIcons(columnIndex, direction);
             }
@@ -1043,7 +1252,7 @@
                     });
                 });
                 
-                const currentHeader = headers[columnIndex + 1];
+                const currentHeader = headers[columnIndex + 1]; // +1 因为第一列是选择框
                 if (currentHeader) {
                     if (direction === 'asc') {
                         currentHeader.querySelector(`.sort-down`).classList.add('active');
