@@ -449,6 +449,116 @@
             opacity: 1;
         }
 
+        /* 篩選面板樣式 */
+        .filter-panel {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px 20px;
+            display: block; /* 始終顯示 */
+            flex-shrink: 0;
+        }
+
+        .filter-section {
+            margin-bottom: 15px;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .filter-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+            min-width: 80px;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            max-height: 80px;
+            overflow-y: auto;
+            padding: 5px;
+            margin-left: 80px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .filter-option:hover {
+            background-color: #e9ecef;
+        }
+
+        .filter-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #4b6cb7;
+        }
+
+        .filter-count {
+            font-size: 0.8rem;
+            color: #6c757d;
+            background: #e9ecef;
+            padding: 1px 6px;
+            border-radius: 10px;
+            margin-left: 4px;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .filter-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .filter-btn:hover {
+            background: #5a6268;
+        }
+
+        .filter-btn.apply {
+            background: #28a745;
+        }
+
+        .filter-btn.apply:hover {
+            background: #218838;
+        }
+
+        .no-filter-data {
+            color: #6c757d;
+            font-style: italic;
+            margin-left: 80px;
+            font-size: 0.85rem;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.8rem;
@@ -510,6 +620,31 @@
                 max-width: 180px;
                 padding: 5px 6px;
             }
+
+            /* 移動端篩選面板 */
+            .filter-options {
+                max-height: 70px;
+                gap: 8px;
+                margin-left: 0;
+            }
+
+            .filter-option {
+                font-size: 0.8rem;
+            }
+
+            .filter-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .filter-title {
+                min-width: auto;
+            }
+
+            .no-filter-data {
+                margin-left: 0;
+            }
         }
         
         @media (max-width: 480px) {
@@ -555,6 +690,21 @@
                 max-width: 140px;
                 padding: 4px 5px;
             }
+
+            /* 手機端篩選面板 */
+            .filter-panel {
+                padding: 10px 15px;
+            }
+
+            .filter-options {
+                max-height: 60px;
+                gap: 6px;
+            }
+
+            .filter-option {
+                font-size: 0.75rem;
+                padding: 3px 6px;
+            }
         }
     </style>
 </head>
@@ -584,6 +734,46 @@
                 </div>
             </div>
         </section>
+
+        <!-- 新增篩選面板 -->
+        <div class="filter-panel" id="filterPanel">
+            <div class="filter-section" id="cpuFilterSection">
+                <div class="filter-header">
+                    <div class="filter-title">CPU 篩選:</div>
+                </div>
+                <div class="filter-options" id="cpuFilterOptions">
+                    <!-- CPU篩選選項將在這裡動態生成 -->
+                </div>
+                <div class="no-filter-data" id="cpuNoData" style="display: none;">找不到 CPU 欄位</div>
+            </div>
+            
+            <div class="filter-section" id="gpuFilterSection">
+                <div class="filter-header">
+                    <div class="filter-title">GPU 篩選:</div>
+                </div>
+                <div class="filter-options" id="gpuFilterOptions">
+                    <!-- GPU篩選選項將在這裡動態生成 -->
+                </div>
+                <div class="no-filter-data" id="gpuNoData" style="display: none;">找不到 GPU 欄位</div>
+            </div>
+            
+            <div class="filter-section" id="mgpFilterSection">
+                <div class="filter-header">
+                    <div class="filter-title">MGP 篩選:</div>
+                </div>
+                <div class="filter-options" id="mgpFilterOptions">
+                    <!-- MGP篩選選項將在這裡動態生成 -->
+                </div>
+                <div class="no-filter-data" id="mgpNoData" style="display: none;">找不到 MGP 欄位</div>
+            </div>
+            
+            <div class="filter-actions">
+                <button class="filter-btn apply" id="applyFilter">套用篩選</button>
+                <button class="filter-btn" id="clearFilter">清除篩選</button>
+                <button class="filter-btn" id="selectAllFilter">全選</button>
+                <button class="filter-btn" id="deselectAllFilter">取消全選</button>
+            </div>
+        </div>
         
         <section class="table-section">
             <div class="table-wrapper" id="tableWrapper" tabindex="0">
@@ -603,15 +793,41 @@
             const selectAllBtn = document.getElementById('selectAllBtn');
             const refreshBtn = document.getElementById('refreshBtn');
             const exportBtn = document.getElementById('exportBtn');
-            const localFileBtn = document.getElementById('localFileBtn'); // 新增本地讀取按鈕
+            const localFileBtn = document.getElementById('localFileBtn');
             const selectionInfo = document.getElementById('selectionInfo');
+            
+            // 篩選相關元素
+            const filterPanel = document.getElementById('filterPanel');
+            const cpuFilterOptions = document.getElementById('cpuFilterOptions');
+            const gpuFilterOptions = document.getElementById('gpuFilterOptions');
+            const mgpFilterOptions = document.getElementById('mgpFilterOptions');
+            const cpuNoData = document.getElementById('cpuNoData');
+            const gpuNoData = document.getElementById('gpuNoData');
+            const mgpNoData = document.getElementById('mgpNoData');
+            const applyFilterBtn = document.getElementById('applyFilter');
+            const clearFilterBtn = document.getElementById('clearFilter');
+            const selectAllFilterBtn = document.getElementById('selectAllFilter');
+            const deselectAllFilterBtn = document.getElementById('deselectAllFilter');
             
             let currentWorkbook = null;
             let currentSheetData = null;
             let currentSortColumn = null;
             let currentSortDirection = null;
             let selectedRows = new Set();
-            let isLocalFileBtnVisible = true; // 追蹤按鈕顯示狀態
+            let isLocalFileBtnVisible = false; // 預設為隱藏
+            
+            // 篩選值集合
+            let cpuFilterValues = new Set();
+            let gpuFilterValues = new Set();
+            let mgpFilterValues = new Set();
+            
+            // 欄位索引
+            let cpuColumnIndex = -1;
+            let gpuColumnIndex = -1;
+            let mgpColumnIndex = -1;
+            
+            // 原始數據
+            let originalDataRows = [];
             
             // 創建快捷鍵提示元素
             const createShortcutHint = () => {
@@ -755,11 +971,333 @@
                     if (!isLocalFileBtnVisible) {
                         localFileBtn.classList.add('btn-hidden');
                     }
+                } else {
+                    // 如果沒有保存的偏好設定，預設為隱藏
+                    isLocalFileBtnVisible = false;
+                    localFileBtn.classList.add('btn-hidden');
                 }
             }
             
             // 頁面載入時載入按鈕顯示狀態
             loadButtonVisibilityPreference();
+            
+            // 篩選功能事件監聽
+            applyFilterBtn.addEventListener('click', applyFilter);
+            clearFilterBtn.addEventListener('click', clearFilter);
+            selectAllFilterBtn.addEventListener('click', selectAllFilter);
+            deselectAllFilterBtn.addEventListener('click', deselectAllFilter);
+            
+            // 套用篩選
+            function applyFilter() {
+                if (!currentSheetData || currentSheetData.length < 2) return;
+                
+                const headers = currentSheetData[0];
+                const dataRows = currentSheetData.slice(1);
+                
+                // 如果沒有任何篩選值被選擇，顯示所有數據
+                if (cpuFilterValues.size === 0 && gpuFilterValues.size === 0 && mgpFilterValues.size === 0) {
+                    displayFilteredData(dataRows);
+                    return;
+                }
+                
+                // 篩選數據
+                const filteredData = dataRows.filter(row => {
+                    let cpuMatch = true;
+                    let gpuMatch = true;
+                    let mgpMatch = true;
+                    
+                    // CPU 篩選
+                    if (cpuColumnIndex !== -1 && cpuFilterValues.size > 0) {
+                        const cpuValue = row[cpuColumnIndex] || '';
+                        cpuMatch = cpuFilterValues.has(cpuValue.toString());
+                    }
+                    
+                    // GPU 篩選
+                    if (gpuColumnIndex !== -1 && gpuFilterValues.size > 0) {
+                        const gpuValue = row[gpuColumnIndex] || '';
+                        gpuMatch = gpuFilterValues.has(gpuValue.toString());
+                    }
+                    
+                    // MGP 篩選
+                    if (mgpColumnIndex !== -1 && mgpFilterValues.size > 0) {
+                        const mgpValue = row[mgpColumnIndex] || '';
+                        mgpMatch = mgpFilterValues.has(mgpValue.toString());
+                    }
+                    
+                    return cpuMatch && gpuMatch && mgpMatch;
+                });
+                
+                displayFilteredData(filteredData);
+                
+                // 更新篩選計數
+                updateFilterCounts(filteredData);
+            }
+            
+            // 顯示篩選後的數據
+            function displayFilteredData(filteredData) {
+                const table = tableContainer.querySelector('table');
+                if (!table) return;
+                
+                const tbody = table.querySelector('tbody');
+                tbody.innerHTML = '';
+                
+                selectedRows.clear();
+                updateSelectionInfo();
+                
+                // 添加篩選後的行
+                filteredData.forEach((rowData, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // 添加選擇框
+                    const selectCell = document.createElement('td');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.className = 'select-checkbox';
+                    checkbox.dataset.rowIndex = index;
+                    checkbox.addEventListener('change', function() {
+                        const rowIndex = parseInt(this.dataset.rowIndex);
+                        if (this.checked) {
+                            selectedRows.add(rowIndex);
+                        } else {
+                            selectedRows.delete(rowIndex);
+                        }
+                        updateSelectionInfo();
+                        updateRowSelectionStyles();
+                    });
+                    selectCell.appendChild(checkbox);
+                    row.appendChild(selectCell);
+                    
+                    const headers = currentSheetData[0];
+                    for (let j = 0; j < headers.length; j++) {
+                        const td = document.createElement('td');
+                        td.textContent = rowData[j] || '';
+                        row.appendChild(td);
+                    }
+                    
+                    tbody.appendChild(row);
+                });
+                
+                updateRowSelectionStyles();
+            }
+            
+            // 清除篩選
+            function clearFilter() {
+                // 取消所有篩選勾選
+                const checkboxes = filterPanel.querySelectorAll('.filter-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                cpuFilterValues.clear();
+                gpuFilterValues.clear();
+                mgpFilterValues.clear();
+                
+                // 顯示所有數據
+                if (currentSheetData && currentSheetData.length > 1) {
+                    displayFilteredData(currentSheetData.slice(1));
+                    // 重置篩選計數為原始值
+                    updateFilterCounts(currentSheetData.slice(1));
+                }
+            }
+            
+            // 全選篩選
+            function selectAllFilter() {
+                const checkboxes = filterPanel.querySelectorAll('.filter-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = true;
+                    const value = checkbox.value;
+                    const filterType = checkbox.dataset.filterType;
+                    
+                    if (filterType === 'cpu') {
+                        cpuFilterValues.add(value);
+                    } else if (filterType === 'gpu') {
+                        gpuFilterValues.add(value);
+                    } else if (filterType === 'mgp') {
+                        mgpFilterValues.add(value);
+                    }
+                });
+            }
+            
+            // 取消全選篩選
+            function deselectAllFilter() {
+                const checkboxes = filterPanel.querySelectorAll('.filter-checkbox');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                cpuFilterValues.clear();
+                gpuFilterValues.clear();
+                mgpFilterValues.clear();
+            }
+            
+            // 更新篩選計數（根據當前篩選結果）
+            function updateFilterCounts(filteredData) {
+                if (!filteredData || filteredData.length === 0) return;
+                
+                // 計算每個篩選類別在當前過濾數據中的計數
+                const cpuCounts = {};
+                const gpuCounts = {};
+                const mgpCounts = {};
+                
+                filteredData.forEach(row => {
+                    // CPU 計數
+                    if (cpuColumnIndex !== -1) {
+                        const cpuValue = row[cpuColumnIndex] || '';
+                        if (cpuValue) {
+                            const valueStr = cpuValue.toString();
+                            cpuCounts[valueStr] = (cpuCounts[valueStr] || 0) + 1;
+                        }
+                    }
+                    
+                    // GPU 計數
+                    if (gpuColumnIndex !== -1) {
+                        const gpuValue = row[gpuColumnIndex] || '';
+                        if (gpuValue) {
+                            const valueStr = gpuValue.toString();
+                            gpuCounts[valueStr] = (gpuCounts[valueStr] || 0) + 1;
+                        }
+                    }
+                    
+                    // MGP 計數
+                    if (mgpColumnIndex !== -1) {
+                        const mgpValue = row[mgpColumnIndex] || '';
+                        if (mgpValue) {
+                            const valueStr = mgpValue.toString();
+                            mgpCounts[valueStr] = (mgpCounts[valueStr] || 0) + 1;
+                        }
+                    }
+                });
+                
+                // 更新篩選選項的計數顯示
+                updateFilterSectionCounts('cpu', cpuCounts);
+                updateFilterSectionCounts('gpu', gpuCounts);
+                updateFilterSectionCounts('mgp', mgpCounts);
+            }
+            
+            // 更新特定篩選區段的計數
+            function updateFilterSectionCounts(filterType, valueCounts) {
+                const checkboxes = document.querySelectorAll(`.filter-checkbox[data-filter-type="${filterType}"]`);
+                checkboxes.forEach(checkbox => {
+                    const value = checkbox.value;
+                    const count = valueCounts[value] || 0;
+                    const countElement = checkbox.parentNode.querySelector('.filter-count');
+                    if (countElement) {
+                        countElement.textContent = count;
+                        
+                        // 如果計數為0，則禁用該選項
+                        if (count === 0 && !checkbox.checked) {
+                            checkbox.disabled = true;
+                            checkbox.parentNode.style.opacity = '0.5';
+                            checkbox.parentNode.style.cursor = 'not-allowed';
+                        } else {
+                            checkbox.disabled = false;
+                            checkbox.parentNode.style.opacity = '1';
+                            checkbox.parentNode.style.cursor = 'pointer';
+                        }
+                    }
+                });
+            }
+            
+            // 提取欄位值並建立篩選選項
+            function extractFilterValues() {
+                if (!currentSheetData || currentSheetData.length < 2) return;
+                
+                const headers = currentSheetData[0];
+                originalDataRows = currentSheetData.slice(1);
+                
+                // 找到各欄位的索引
+                cpuColumnIndex = headers.findIndex(header => 
+                    header.toLowerCase().includes('cpu'));
+                gpuColumnIndex = headers.findIndex(header => 
+                    header.toLowerCase().includes('gpu'));
+                mgpColumnIndex = headers.findIndex(header => 
+                    header.toLowerCase().includes('mgp'));
+                
+                // 收集各欄位的值
+                extractAndRenderFilterValues('cpu', cpuColumnIndex, cpuFilterOptions, cpuNoData);
+                extractAndRenderFilterValues('gpu', gpuColumnIndex, gpuFilterOptions, gpuNoData);
+                extractAndRenderFilterValues('mgp', mgpColumnIndex, mgpFilterOptions, mgpNoData);
+            }
+            
+            // 提取並渲染特定欄位的篩選值
+            function extractAndRenderFilterValues(filterType, columnIndex, optionsContainer, noDataElement) {
+                if (!currentSheetData || currentSheetData.length < 2) return;
+                
+                const headers = currentSheetData[0];
+                const dataRows = currentSheetData.slice(1);
+                
+                if (columnIndex === -1) {
+                    optionsContainer.style.display = 'none';
+                    noDataElement.style.display = 'block';
+                    return;
+                }
+                
+                // 收集所有值
+                const allValues = new Set();
+                const valueCounts = {};
+                
+                dataRows.forEach(row => {
+                    const value = row[columnIndex] || '';
+                    if (value) {
+                        const valueStr = value.toString();
+                        allValues.add(valueStr);
+                        valueCounts[valueStr] = (valueCounts[valueStr] || 0) + 1;
+                    }
+                });
+                
+                // 渲染篩選選項
+                if (allValues.size > 0) {
+                    optionsContainer.style.display = 'flex';
+                    noDataElement.style.display = 'none';
+                    renderFilterOptions(filterType, allValues, valueCounts, optionsContainer);
+                } else {
+                    optionsContainer.style.display = 'none';
+                    noDataElement.style.display = 'block';
+                }
+            }
+            
+            // 渲染篩選選項
+            function renderFilterOptions(filterType, allValues, valueCounts, optionsContainer) {
+                optionsContainer.innerHTML = '';
+                
+                const sortedValues = Array.from(allValues).sort();
+                
+                sortedValues.forEach(value => {
+                    const option = document.createElement('div');
+                    option.className = 'filter-option';
+                    option.innerHTML = `
+                        <input type="checkbox" class="filter-checkbox" value="${value}" 
+                               id="filter-${filterType}-${value.replace(/[^a-zA-Z0-9]/g, '-')}" 
+                               data-filter-type="${filterType}">
+                        <label for="filter-${filterType}-${value.replace(/[^a-zA-Z0-9]/g, '-')}">
+                            ${value}
+                            <span class="filter-count">${valueCounts[value] || 0}</span>
+                        </label>
+                    `;
+                    
+                    const checkbox = option.querySelector('.filter-checkbox');
+                    checkbox.addEventListener('change', function() {
+                        if (this.checked) {
+                            if (filterType === 'cpu') {
+                                cpuFilterValues.add(this.value);
+                            } else if (filterType === 'gpu') {
+                                gpuFilterValues.add(this.value);
+                            } else if (filterType === 'mgp') {
+                                mgpFilterValues.add(this.value);
+                            }
+                        } else {
+                            if (filterType === 'cpu') {
+                                cpuFilterValues.delete(this.value);
+                            } else if (filterType === 'gpu') {
+                                gpuFilterValues.delete(this.value);
+                            } else if (filterType === 'mgp') {
+                                mgpFilterValues.delete(this.value);
+                            }
+                        }
+                    });
+                    
+                    optionsContainer.appendChild(option);
+                });
+            }
             
             // 選擇工作表後焦點移到表格
             sheetSelect.addEventListener('change', function() {
@@ -1080,6 +1618,9 @@
                 
                 // 自動調整欄寬
                 autoAdjustColumnWidths();
+                
+                // 提取欄位值並建立篩選選項
+                extractFilterValues();
                 
                 // 强制触发重排以确保滚动条显示
                 setTimeout(() => {
