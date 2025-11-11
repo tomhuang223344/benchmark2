@@ -196,14 +196,14 @@
             border-collapse: collapse;
             border-spacing: 0;
             font-size: 0.9rem;
-            table-layout: fixed; /* 改回固定佈局以控制欄寬 */
+            table-layout: fixed;
         }
         
         th {
             background-color: #4b6cb7;
             color: white;
-            padding: 8px 8px; /* 減少內邊距 */
-            text-align: center; /* 表頭文字置中 */
+            padding: 8px 8px;
+            text-align: center;
             font-weight: 600;
             position: sticky;
             top: 0;
@@ -244,50 +244,50 @@
             left: 50px;
             z-index: 14;
             background-color: #4b6cb7;
-            width: 150px; /* 固定寬度 */
+            width: 150px;
             min-width: 150px;
             max-width: 150px;
             padding: 8px 8px;
             border-right: 2px solid #3a5ca9;
-            text-align: center; /* 文字置中 */
+            text-align: center;
         }
         
         td:nth-child(2) {
             background-color: white;
             border: 1px solid #e0e0e0;
-            text-align: center; /* 文字置中 */
+            text-align: center;
         }
         
         /* CPU欄位 - 設置較小的寬度 */
         th:nth-child(3),
         td:nth-child(3) {
-            width: 100px; /* 固定寬度 */
+            width: 100px;
             min-width: 100px;
             max-width: 100px;
             padding: 8px 8px;
-            text-align: center; /* 文字置中 */
+            text-align: center;
         }
         
         /* GPU欄位 - 設置較小的寬度 */
         th:nth-child(4),
         td:nth-child(4) {
-            width: 100px; /* 固定寬度 */
+            width: 100px;
             min-width: 100px;
             max-width: 100px;
             padding: 8px 8px;
-            text-align: center; /* 文字置中 */
+            text-align: center;
         }
         
         /* 其他欄位 */
         th:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)),
         td:not(:first-child):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) {
-            width: 120px; /* 固定寬度 */
+            width: 120px;
             min-width: 120px;
             max-width: 120px;
             padding: 8px 8px;
             overflow: hidden;
             text-overflow: ellipsis;
-            text-align: center; /* 文字置中 */
+            text-align: center;
         }
         
         /* 斑馬紋效果 */
@@ -323,12 +323,11 @@
             accent-color: #4b6cb7;
         }
         
+        /* 修復排序按鈕樣式 */
         th.sortable {
             cursor: pointer;
             transition: background-color 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center; /* 置中對齊 */
+            position: relative; /* 確保排序圖標位置正確 */
         }
         
         th.sortable:hover {
@@ -338,14 +337,16 @@
         .header-content {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            justify-content: center; /* 置中對齊 */
+            width: 100%;
         }
         
         .sort-icons {
             display: flex;
             flex-direction: column;
             gap: 2px;
+            margin-left: 5px; /* 與文字保持適當距離 */
         }
         
         /* 三角形排序图标 */
@@ -360,6 +361,7 @@
         
         .sort-icon.sort-up {
             border-bottom: 8px solid white;
+            margin-bottom: 2px;
         }
         
         .sort-icon.sort-down {
@@ -383,7 +385,7 @@
             border: 1px solid #e0e0e0;
             white-space: nowrap;
             background-color: white;
-            text-align: center; /* 所有表格內容置中 */
+            text-align: center;
             font-size: 0.9rem;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -1386,7 +1388,7 @@
             // 導出按鈕事件
             exportBtn.addEventListener('click', function() {
                 exportSelectedRows();
-            });
+            }
             
             // 更新選擇信息
             function updateSelectionInfo() {
@@ -1581,7 +1583,7 @@
                         // 第一列不添加排序功能，文字置中
                         th.textContent = header || '';
                     } else {
-                        // 其他列添加排序功能（使用三角形图标，垂直排列在右侧）
+                        // 其他列添加排序功能
                         th.innerHTML = `
                             <div class="sortable">
                                 <div class="header-content">
