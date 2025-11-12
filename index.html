@@ -218,7 +218,7 @@
             top: 0;
             user-select: none;
             white-space: nowrap;
-            z-index: 10;
+            z-index: 20; /* 增加表頭的 z-index */
             font-size: 0.9rem;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -230,7 +230,7 @@
         td:first-child {
             position: sticky;
             left: 0;
-            z-index: 15;
+            z-index: 25; /* 增加第一固定列的 z-index */
             background-color: #3a5ca9;
             width: 50px;
             min-width: 50px;
@@ -244,6 +244,7 @@
             background-color: white;
             border: 1px solid #e0e0e0;
             text-align: center;
+            z-index: 15; /* 数据行的第一固定列 z-index 较低 */
         }
         
         /* 第2欄固定 */
@@ -251,7 +252,7 @@
         td:nth-child(2) {
             position: sticky;
             left: 50px;
-            z-index: 14;
+            z-index: 24; /* 增加第二固定列的 z-index */
             background-color: #4b6cb7;
             width: 180px;
             min-width: 180px;
@@ -265,6 +266,7 @@
             background-color: white;
             border: 1px solid #e0e0e0;
             text-align: center;
+            z-index: 14; /* 数据行的第二固定列 z-index 较低 */
         }
         
         /* 其他欄位 */
@@ -797,20 +799,20 @@
             <div class="left-controls">
                 <div class="control-group">
                     <div class="sheet-selector" id="sheetSelector" style="display: none;">
-                        <label for="sheetSelect">Select:</label>
+                        <label for="sheetSelect">选择工作表:</label>
                         <select id="sheetSelect"></select>
                     </div>
                 </div>
                 <!-- 新增筛选面板切换按钮 -->
-                <button class="btn btn-filter" id="filterToggleBtn">📊 Show item</button>
+                <button class="btn btn-filter" id="filterToggleBtn">📊 显示筛选</button>
             </div>
             <div class="right-controls">
                 <div class="selection-group">
-                    <button class="btn btn-select-all" id="selectAllBtn">Select All</button>
-                    <span class="selection-info" id="selectionInfo">Select 0  </span>
+                    <button class="btn btn-select-all" id="selectAllBtn">全选</button>
+                    <span class="selection-info" id="selectionInfo">已选择 0 行</span>
                     <!-- 新增本地讀取按鈕 -->
                     <button class="btn btn-local btn-hidden" id="localFileBtn">本地读取 Excel</button>
-                    <button class="btn btn-export" id="exportBtn">Output</button>
+                    <button class="btn btn-export" id="exportBtn">匯出選取資料</button>
                     <button class="btn btn-refresh" id="refreshBtn">更新</button>
                 </div>
             </div>
@@ -820,7 +822,7 @@
         <div class="filter-panel" id="filterPanel">
             <div class="filter-section" id="cpuFilterSection">
                 <div class="filter-header">
-                    <div class="filter-title">CPU item:</div>
+                    <div class="filter-title">CPU 篩選:</div>
                 </div>
                 <div class="filter-options" id="cpuFilterOptions">
                     <!-- CPU篩選選項將在這裡動態生成 -->
@@ -830,7 +832,7 @@
             
             <div class="filter-section" id="gpuFilterSection">
                 <div class="filter-header">
-                    <div class="filter-title">GPU item:</div>
+                    <div class="filter-title">GPU 篩選:</div>
                 </div>
                 <div class="filter-options" id="gpuFilterOptions">
                     <!-- GPU篩選選項將在這裡動態生成 -->
@@ -840,7 +842,7 @@
             
             <div class="filter-section" id="mgpFilterSection">
                 <div class="filter-header">
-                    <div class="filter-title">MGP item:</div>
+                    <div class="filter-title">MGP 篩選:</div>
                 </div>
                 <div class="filter-options" id="mgpFilterOptions">
                     <!-- MGP篩選選項將在這裡動態生成 -->
@@ -864,6 +866,7 @@
     </div>
 
     <script>
+        // JavaScript 部分保持不變
         document.addEventListener('DOMContentLoaded', function() {
             const tableContainer = document.getElementById('tableContainer');
             const tableWrapper = document.getElementById('tableWrapper');
@@ -962,11 +965,11 @@
                 if (savedFilterState === 'true') {
                     isFilterPanelVisible = true;
                     filterPanel.style.display = 'block';
-                    filterToggleBtn.innerHTML = '📊 Hide item';
+                    filterToggleBtn.innerHTML = '📊 隐藏筛选';
                 } else {
                     isFilterPanelVisible = false;
                     filterPanel.style.display = 'none';
-                    filterToggleBtn.innerHTML = '📊 Show item';
+                    filterToggleBtn.innerHTML = '📊 显示筛选';
                 }
             }
             
@@ -1076,7 +1079,7 @@
             filterToggleBtn.addEventListener('click', function() {
                 isFilterPanelVisible = !isFilterPanelVisible;
                 filterPanel.style.display = isFilterPanelVisible ? 'block' : 'none';
-                filterToggleBtn.innerHTML = isFilterPanelVisible ? '📊 Hide item' : '📊 Show item';
+                filterToggleBtn.innerHTML = isFilterPanelVisible ? '📊 隐藏筛选' : '📊 显示筛选';
                 
                 // 保存篩選面板狀態
                 localStorage.setItem('filterPanelVisible', isFilterPanelVisible.toString());
@@ -1116,19 +1119,19 @@
                     let gpuMatch = true;
                     let mgpMatch = true;
                     
-                    // CPU item
+                    // CPU 篩選
                     if (cpuColumnIndex !== -1 && cpuFilterValues.size > 0) {
                         const cpuValue = row[cpuColumnIndex] || '';
                         cpuMatch = cpuFilterValues.has(cpuValue.toString());
                     }
                     
-                    // GPU item
+                    // GPU 篩選
                     if (gpuColumnIndex !== -1 && gpuFilterValues.size > 0) {
                         const gpuValue = row[gpuColumnIndex] || '';
                         gpuMatch = gpuFilterValues.has(gpuValue.toString());
                     }
                     
-                    // MGP item
+                    // MGP 篩選
                     if (mgpColumnIndex !== -1 && mgpFilterValues.size > 0) {
                         const mgpValue = row[mgpColumnIndex] || '';
                         mgpMatch = mgpFilterValues.has(mgpValue.toString());
@@ -1503,7 +1506,7 @@
             
             // 更新選擇信息
             function updateSelectionInfo() {
-                selectionInfo.textContent = `Select ${selectedRows.size} `;
+                selectionInfo.textContent = `已选择 ${selectedRows.size} 行`;
             }
             
             // 更新行选择样式
